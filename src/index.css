@@ -1,0 +1,103 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --font-sans: "Plus Jakarta Sans", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #08101e;
+    color: #f1f5f9;
+  }
+}
+
+.font-mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Global & panel scrollbar refinement matching dark command-center theme */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(8, 16, 30, 0.65);
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(56, 189, 248, 0.42) 0%,
+    rgba(14, 165, 233, 0.26) 100%
+  );
+  border-radius: 9999px;
+  border: 1px solid rgba(125, 211, 252, 0.22);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(56, 189, 248, 0.75) 0%,
+    rgba(16, 185, 129, 0.55) 100%
+  );
+  border-color: rgba(125, 211, 252, 0.45);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: rgba(56, 189, 248, 0.9);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.panel-scroll {
+  scrollbar-gutter: stable;
+}
+
+.panel-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.panel-scroll::-webkit-scrollbar-track {
+  background: rgba(9, 18, 34, 0.7);
+  border-radius: 9999px;
+}
+
+.panel-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(56, 189, 248, 0.48) 0%,
+    rgba(14, 165, 233, 0.28) 100%
+  );
+  border-radius: 9999px;
+  border: 1px solid rgba(125, 211, 252, 0.24);
+}
+
+.panel-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(56, 189, 248, 0.82) 0%,
+    rgba(16, 185, 129, 0.6) 100%
+  );
+  border-color: rgba(125, 211, 252, 0.5);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(56, 189, 248, 0.42) rgba(8, 16, 30, 0.65);
+  }
+}

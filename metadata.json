@@ -1,0 +1,8 @@
+{
+  "name": "吉农全档",
+  "description": "吉林省高标准农田建设全档案大屏展示系统，按年份拆分项目，涵盖质量检测、项目进度、资金拨付、安全标牌、人员履职、有机肥管理、工程验收及移交管护与吉林省地图联动展示。",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
