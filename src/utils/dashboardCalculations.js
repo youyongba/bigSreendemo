@@ -1,3 +1,5 @@
+import { JILIN_CITY_GEO_MAP } from '../data/jilinSubMaps.js';
+
 export const JILIN_CITIES = [
   '长春市',
   '吉林市',
@@ -10,11 +12,92 @@ export const JILIN_CITIES = [
   '延边朝鲜族自治州',
 ];
 
-export function filterProjects(projects, year, city) {
+function roundTwo(val) {
+  return Math.round(val * 100) / 100;
+}
+
+export function getCityCounties(city) {
+  if (!city || !JILIN_CITY_GEO_MAP[city]) return [];
+  return JILIN_CITY_GEO_MAP[city].features.map((f) => f.properties?.name).filter(Boolean);
+}
+
+export function getCountyGeoJson(city, county) {
+  if (!city || !county || !JILIN_CITY_GEO_MAP[city]) return null;
+  const cityGeo = JILIN_CITY_GEO_MAP[city];
+  const matchedFeature = cityGeo.features.find(
+    (f) => f.properties?.name === county
+  );
+  if (!matchedFeature) return null;
+  return {
+    type: 'FeatureCollection',
+    features: [matchedFeature],
+  };
+}
+
+export function filterProjects(projects, year, city = null, county = null) {
   return projects.filter((p) => {
     const matchYear = year === 'ALL' ? true : p.year === year;
     const matchCity = city ? p.city === city : true;
-    return matchYear && matchCity;
+    const matchCounty = county ? p.county === county : true;
+    return matchYear && matchCity && matchCounty;
+  });
+}
+
+export function getProjectScheduleAlert(project) {
+  if (!project || !project.hasSchedulePlan || project.plannedProgressPercent == null) {
+    return {
+      hasPlan: false,
+      isBehind: false,
+      diffPercent: 0,
+      message: null,
+    };
+  }
+  const actual = Number(project.progressPercent ?? 0);
+  const planned = Number(project.plannedProgressPercent ?? 0);
+  const diff = roundTwo(planned - actual);
+  if (diff > 0) {
+    return {
+      hasPlan: true,
+      isBehind: true,
+      diffPercent: diff,
+      message: `进度滞后提醒：实际进度 ${actual}%，低于计划进度 ${planned}%（滞后 ${diff}%）`,
+    };
+  }
+  return {
+    hasPlan: true,
+    isBehind: false,
+    diffPercent: 0,
+    message: null,
+  };
+}
+
+export function calcProjectSectionProgress(project) {
+  if (!project) return [];
+  return (project.sections ?? []).map((sec) => {
+    const items = sec.engineeringItems ?? [];
+    const totalBudget = items.reduce((s, item) => s + (item.budgetAmount ?? 0), 0);
+    let progressPercent = 0;
+    if (totalBudget > 0) {
+      const completedBudget = items.reduce(
+        (s, item) => s + (item.budgetAmount ?? 0) * Math.max(0, Math.min(1, item.completedRatio ?? 0)),
+        0
+      );
+      progressPercent = Math.round((completedBudget / totalBudget) * 100);
+    } else if (items.length > 0) {
+      const avgRatio =
+        items.reduce((s, item) => s + Math.max(0, Math.min(1, item.completedRatio ?? 0)), 0) /
+        items.length;
+      progressPercent = Math.round(avgRatio * 100);
+    }
+    return {
+      id: sec.id,
+      name: sec.name,
+      contractor: sec.contractor,
+      status: sec.status,
+      isOrganicFertilizer: Boolean(sec.isOrganicFertilizer),
+      progressPercent,
+      itemCount: items.length,
+    };
   });
 }
 
@@ -29,11 +112,12 @@ function summarizeChecks(records) {
 export function calcQualityStats(projects) {
   const allRecords = [];
   for (const project of projects) {
-    for (const check of project.qualityChecks) {
+    for (const check of project.qualityChecks ?? []) {
       allRecords.push({
         ...check,
         projectName: project.name,
         city: project.city,
+        county: project.county,
       });
     }
   }
@@ -53,15 +137,204 @@ export function calcQualityStats(projects) {
   };
 }
 
+export function calcEngineeringQualityStats(projects) {
+  const processSelf = { uploaded: 0, supervisorApproved: 0 };
+  const concealedSelf = { uploaded: 0, supervisorApproved: 0 };
+  const concreteSelf = { uploaded: 0, supervisorApproved: 0 };
+  const parallelCheck = {
+    processPassed: 0,
+    processTotal: 0,
+    concealedPassed: 0,
+    concealedTotal: 0,
+  };
+  const supervisorSideBySide = { count: 0, hours: 0, keyProcesses: 0 };
+  const qualityPatrol = {
+    totalPatrols: 0,
+    issueCount: 0,
+    pendingRectifyCount: 0,
+    rectifiedCount: 0,
+    records: [],
+  };
+
+  for (const project of projects) {
+    const eq = project.engineeringQuality;
+    if (!eq) continue;
+
+    processSelf.uploaded += eq.processSelfCheck?.uploaded ?? 0;
+    processSelf.supervisorApproved += eq.processSelfCheck?.supervisorApproved ?? 0;
+
+    concealedSelf.uploaded += eq.concealedSelfCheck?.uploaded ?? 0;
+    concealedSelf.supervisorApproved += eq.concealedSelfCheck?.supervisorApproved ?? 0;
+
+    concreteSelf.uploaded += eq.concreteSelfCheck?.uploaded ?? 0;
+    concreteSelf.supervisorApproved += eq.concreteSelfCheck?.supervisorApproved ?? 0;
+
+    parallelCheck.processPassed += eq.parallelCheck?.processPassed ?? 0;
+    parallelCheck.processTotal += eq.parallelCheck?.processTotal ?? 0;
+    parallelCheck.concealedPassed += eq.parallelCheck?.concealedPassed ?? 0;
+    parallelCheck.concealedTotal += eq.parallelCheck?.concealedTotal ?? 0;
+
+    supervisorSideBySide.count += eq.supervisorSideBySide?.count ?? 0;
+    supervisorSideBySide.hours += eq.supervisorSideBySide?.hours ?? 0;
+    supervisorSideBySide.keyProcesses += eq.supervisorSideBySide?.keyProcesses ?? 0;
+
+    qualityPatrol.totalPatrols += eq.qualityPatrol?.totalPatrols ?? 0;
+    qualityPatrol.issueCount += eq.qualityPatrol?.issueCount ?? 0;
+    qualityPatrol.pendingRectifyCount += eq.qualityPatrol?.pendingRectifyCount ?? 0;
+    qualityPatrol.rectifiedCount += eq.qualityPatrol?.rectifiedCount ?? 0;
+
+    for (const rec of eq.qualityPatrol?.records ?? []) {
+      qualityPatrol.records.push({
+        ...rec,
+        projectId: project.id,
+        projectName: project.name,
+        city: project.city,
+        county: project.county,
+      });
+    }
+  }
+
+  const selfUploadTotal = processSelf.uploaded + concealedSelf.uploaded;
+  const checkDetailStats = calcQualityStats(projects);
+
+  return {
+    processSelfCheck: {
+      ...processSelf,
+      rate:
+        processSelf.uploaded === 0
+          ? 0
+          : Math.round((processSelf.supervisorApproved / processSelf.uploaded) * 1000) / 10,
+    },
+    concealedSelfCheck: {
+      ...concealedSelf,
+      rate:
+        concealedSelf.uploaded === 0
+          ? 0
+          : Math.round((concealedSelf.supervisorApproved / concealedSelf.uploaded) * 1000) / 10,
+    },
+    concreteSelfCheck: {
+      ...concreteSelf,
+      rate:
+        concreteSelf.uploaded === 0
+          ? 0
+          : Math.round((concreteSelf.supervisorApproved / concreteSelf.uploaded) * 1000) / 10,
+    },
+    parallelCheck: {
+      ...parallelCheck,
+      totalPassed: parallelCheck.processPassed + parallelCheck.concealedPassed,
+      totalCount: parallelCheck.processTotal + parallelCheck.concealedTotal,
+    },
+    supervisorSideBySide,
+    selfUploadTotal,
+    qualityPatrol,
+    checkDetailStats,
+  };
+}
+
+export function calcRectificationItems(projects) {
+  const items = [];
+  for (const project of projects) {
+    for (const sp of project.safetyPoints ?? []) {
+      if (sp.status === '待整改') {
+        items.push({
+          id: `rect-sp-${sp.id}`,
+          source: '安全措施',
+          projectId: project.id,
+          projectName: project.name,
+          city: project.city,
+          county: project.county,
+          township: sp.township,
+          title: sp.name,
+          detail: sp.detail,
+          coords: sp.coords,
+          status: '待整改',
+        });
+      }
+    }
+
+    for (const rec of project.engineeringQuality?.qualityPatrol?.records ?? []) {
+      if (rec.status === '待整改') {
+        const matchedTownship = (project.townships ?? []).find((t) => t.name === rec.township);
+        items.push({
+          id: `rect-qp-${rec.id}`,
+          source: '质量巡查',
+          projectId: project.id,
+          projectName: project.name,
+          city: project.city,
+          county: project.county,
+          township: rec.township,
+          sectionName: rec.sectionName,
+          title: rec.title,
+          detail: `${rec.sectionName} · 巡查人：${rec.inspector}（${rec.checkedAt}）`,
+          coords: matchedTownship?.coords ?? project.coords,
+          status: '待整改',
+        });
+      }
+    }
+  }
+  return items;
+}
+
+export function calcMapOverlayPoints(projects) {
+  const safetyPoints = [];
+  const recorderPoints = [];
+  const townships = [];
+
+  for (const project of projects) {
+    for (const sp of project.safetyPoints ?? []) {
+      safetyPoints.push({
+        ...sp,
+        projectId: project.id,
+        projectName: project.name,
+        city: project.city,
+        county: project.county,
+      });
+    }
+    for (const rp of project.recorderPoints ?? []) {
+      recorderPoints.push({
+        ...rp,
+        projectId: project.id,
+        projectName: project.name,
+        city: project.city,
+        county: project.county,
+      });
+    }
+    for (const tw of project.townships ?? []) {
+      townships.push({
+        ...tw,
+        projectId: project.id,
+        projectName: project.name,
+        city: project.city,
+        county: project.county,
+      });
+    }
+  }
+
+  const rectificationPoints = calcRectificationItems(projects);
+  const onlineRecorderCount = recorderPoints.filter((r) => r.online).length;
+  const pendingSafetyCount = safetyPoints.filter((s) => s.status === '待整改').length;
+
+  return {
+    safetyPoints,
+    recorderPoints,
+    townships,
+    rectificationPoints,
+    counts: {
+      safetyTotal: safetyPoints.length,
+      pendingSafetyCount,
+      recorderTotal: recorderPoints.length,
+      onlineRecorderCount,
+      townshipTotal: townships.length,
+      rectificationTotal: rectificationPoints.length,
+    },
+  };
+}
+
 export function calcInProgressProjects(projects) {
   return projects
     .filter((p) => p.status === '施工中')
     .slice()
     .sort((a, b) => b.progressPercent - a.progressPercent);
-}
-
-function roundTwo(val) {
-  return Math.round(val * 100) / 100;
 }
 
 export function calcInvestmentStats(projects) {
@@ -78,7 +351,6 @@ export function calcInvestmentStats(projects) {
       const secDisbursed = sec.disbursements.reduce((sum, d) => sum + d.amount, 0);
       totalDisbursed += secDisbursed;
 
-      // 高标已完成金额逻辑：标段下各工程按完成比例核定产值，封顶不超过标段中标金额
       const rawCompleted = sec.engineeringItems.reduce(
         (sum, item) => sum + item.budgetAmount * Math.max(0, Math.min(1, item.completedRatio)),
         0
@@ -198,14 +470,35 @@ export function calcSafetySignStats(projects) {
   };
 }
 
+function summarizeCheckInRoster(records) {
+  const requiredDaysTotal = records.reduce((s, r) => s + (r.requiredDays ?? 0), 0);
+  const actualCheckInsTotal = records.reduce((s, r) => s + (r.actualCheckIns ?? 0), 0);
+  const todayCheckedInCount = records.filter((r) => Boolean(r.todayCheckedIn)).length;
+  const attendanceRate =
+    requiredDaysTotal === 0
+      ? 0
+      : Math.round((actualCheckInsTotal / requiredDaysTotal) * 1000) / 10;
+
+  return {
+    totalCount: records.length,
+    todayCheckedInCount,
+    requiredDaysTotal,
+    actualCheckInsTotal,
+    attendanceRate,
+    hasCheckInData: true,
+    records,
+  };
+}
+
 export function calcPersonnelStats(projects) {
   const supervisorRecords = [];
   const constructionRecords = [];
 
   for (const project of projects) {
-    for (const sup of project.supervisors) {
-      const rate =
-        sup.requiredDays === 0 ? 0 : Math.round((sup.actualCheckIns / sup.requiredDays) * 1000) / 10;
+    for (const sup of project.supervisors ?? []) {
+      const req = sup.requiredDays ?? 0;
+      const act = sup.actualCheckIns ?? 0;
+      const rate = req === 0 ? 0 : Math.round((act / req) * 1000) / 10;
       supervisorRecords.push({
         ...sup,
         projectName: project.name,
@@ -213,49 +506,29 @@ export function calcPersonnelStats(projects) {
         rate,
       });
     }
-    for (const worker of project.constructionStaff) {
+    for (const worker of project.constructionStaff ?? []) {
+      const req = worker.requiredDays ?? 0;
+      const act = worker.actualCheckIns ?? 0;
+      const rate = req === 0 ? 0 : Math.round((act / req) * 1000) / 10;
       constructionRecords.push({
         ...worker,
         projectName: project.name,
         city: project.city,
+        rate,
       });
     }
   }
 
-  const requiredDaysTotal = supervisorRecords.reduce((s, r) => s + r.requiredDays, 0);
-  const actualCheckInsTotal = supervisorRecords.reduce((s, r) => s + r.actualCheckIns, 0);
-  const todayCheckedInCount = supervisorRecords.filter((r) => r.todayCheckedIn).length;
-  const attendanceRate =
-    requiredDaysTotal === 0
-      ? 0
-      : Math.round((actualCheckInsTotal / requiredDaysTotal) * 1000) / 10;
-
-  const onDutyCount = constructionRecords.filter((r) => r.onDutyStatus === '在岗备案').length;
-  const pendingCount = constructionRecords.filter((r) => r.onDutyStatus === '待进场').length;
-
   return {
-    supervisor: {
-      totalCount: supervisorRecords.length,
-      todayCheckedInCount,
-      requiredDaysTotal,
-      actualCheckInsTotal,
-      attendanceRate,
-      hasCheckInData: true,
-      records: supervisorRecords,
-    },
-    construction: {
-      totalCount: constructionRecords.length,
-      onDutyCount,
-      pendingCount,
-      hasCheckInData: false,
-      records: constructionRecords,
-    },
+    supervisor: summarizeCheckInRoster(supervisorRecords),
+    construction: summarizeCheckInRoster(constructionRecords),
   };
 }
 
 export function calcOrganicFertilizerStats(projects) {
   let totalDesignTons = 0;
   let totalSpreadTons = 0;
+  let totalStockedTons = 0;
   let totalDesignMu = 0;
   let totalSpreadMu = 0;
   let organicSectionCount = 0;
@@ -265,6 +538,7 @@ export function calcOrganicFertilizerStats(projects) {
   for (const project of projects) {
     let pDesignTons = 0;
     let pSpreadTons = 0;
+    let pStockedTons = 0;
     let pDesignMu = 0;
     let pSpreadMu = 0;
     const organicSectionNames = [];
@@ -280,6 +554,7 @@ export function calcOrganicFertilizerStats(projects) {
         organicEngineeringCount += 1;
         pDesignTons += item.organicDesignTons ?? 0;
         pSpreadTons += item.organicSpreadTons ?? 0;
+        pStockedTons += item.organicStockedTons ?? 0;
         pDesignMu += item.organicDesignMu ?? 0;
         pSpreadMu += item.organicSpreadMu ?? 0;
       }
@@ -288,18 +563,21 @@ export function calcOrganicFertilizerStats(projects) {
     if (organicSectionNames.length > 0) {
       totalDesignTons += pDesignTons;
       totalSpreadTons += pSpreadTons;
+      totalStockedTons += pStockedTons;
       totalDesignMu += pDesignMu;
       totalSpreadMu += pSpreadMu;
       byProject.push({
         projectId: project.id,
         projectName: project.name,
         city: project.city,
+        county: project.county,
         organicSectionNames,
         designTons: roundTwo(pDesignTons),
         spreadTons: roundTwo(pSpreadTons),
+        stockedTons: roundTwo(pStockedTons),
         designMu: roundTwo(pDesignMu),
         spreadMu: roundTwo(pSpreadMu),
-        rate: pDesignTons === 0 ? 0 : Math.round((pSpreadTons / pDesignTons) * 1000) / 10,
+        rate: pDesignMu === 0 ? 0 : Math.round((pSpreadMu / pDesignMu) * 1000) / 10,
       });
     }
   }
@@ -307,10 +585,11 @@ export function calcOrganicFertilizerStats(projects) {
   return {
     totalDesignTons: roundTwo(totalDesignTons),
     totalSpreadTons: roundTwo(totalSpreadTons),
+    totalStockedTons: roundTwo(totalStockedTons),
     totalDesignMu: roundTwo(totalDesignMu),
     totalSpreadMu: roundTwo(totalSpreadMu),
     completionRate:
-      totalDesignTons === 0 ? 0 : Math.round((totalSpreadTons / totalDesignTons) * 1000) / 10,
+      totalDesignMu === 0 ? 0 : Math.round((totalSpreadMu / totalDesignMu) * 1000) / 10,
     organicSectionCount,
     organicEngineeringCount,
     byProject,
@@ -394,6 +673,7 @@ export function calcHandoverStats(projects) {
 export function calcMapCityStats(projects) {
   return JILIN_CITIES.map((cityName) => {
     const cityProjects = projects.filter((p) => p.city === cityName);
+    const pendingRectifyCount = calcRectificationItems(cityProjects).length;
     return {
       name: cityName,
       value: cityProjects.length,
@@ -401,8 +681,67 @@ export function calcMapCityStats(projects) {
       areaMu: roundTwo(cityProjects.reduce((s, p) => s + p.areaMu, 0)),
       inProgressCount: cityProjects.filter((p) => p.status === '施工中').length,
       handedOverCount: cityProjects.filter((p) => p.handover.status === '已移交管护').length,
+      pendingRectifyCount,
     };
   });
+}
+
+export function calcMapCountyStats(projects, city) {
+  const counties = getCityCounties(city);
+  return counties.map((countyName) => {
+    const countyProjects = projects.filter(
+      (p) => p.city === city && p.county === countyName
+    );
+    const pendingRectifyCount = calcRectificationItems(countyProjects).length;
+    return {
+      name: countyName,
+      value: countyProjects.length,
+      totalInvestment: roundTwo(countyProjects.reduce((s, p) => s + p.totalInvestment, 0)),
+      areaMu: roundTwo(countyProjects.reduce((s, p) => s + p.areaMu, 0)),
+      inProgressCount: countyProjects.filter((p) => p.status === '施工中').length,
+      pendingRectifyCount,
+    };
+  });
+}
+
+export function filterProjectForLevel3(project, { township = 'ALL', sectionId = 'ALL', category = 'ALL' } = {}) {
+  if (!project) return null;
+
+  const filteredSections = (project.sections ?? [])
+    .filter((sec) => (sectionId === 'ALL' ? true : sec.id === sectionId))
+    .map((sec) => {
+      const items = (sec.engineeringItems ?? []).filter((item) => {
+        const matchTown = township === 'ALL' ? true : item.township === township;
+        const matchCat = category === 'ALL' ? true : item.category === category;
+        return matchTown && matchCat;
+      });
+      return {
+        ...sec,
+        engineeringItems: items,
+      };
+    });
+
+  const filteredTownships = (project.townships ?? []).filter((tw) =>
+    township === 'ALL' ? true : tw.name === township
+  );
+  const filteredZones = (project.projectZones ?? []).filter((z) =>
+    township === 'ALL' ? true : z.township === township
+  );
+  const filteredSafetyPoints = (project.safetyPoints ?? []).filter((sp) =>
+    township === 'ALL' ? true : sp.township === township
+  );
+  const filteredRecorderPoints = (project.recorderPoints ?? []).filter((rp) =>
+    township === 'ALL' ? true : rp.township === township
+  );
+
+  return {
+    ...project,
+    sections: filteredSections,
+    townships: filteredTownships,
+    projectZones: filteredZones,
+    safetyPoints: filteredSafetyPoints,
+    recorderPoints: filteredRecorderPoints,
+  };
 }
 
 export function toggleSectionOrganicAttribute(projects, projectId, sectionId) {

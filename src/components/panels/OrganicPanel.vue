@@ -6,12 +6,16 @@ defineProps({
 });
 
 const emit = defineEmits(['select-project-id']);
+
+function formatNum(val) {
+  return Number(val ?? 0).toLocaleString('zh-CN');
+}
 </script>
 
 <template>
   <PanelShell
     title="有机肥管理"
-    subtitle="仅统计「有机肥标段」工程"
+    subtitle="项目维度 · 有机肥标段统计"
     test-id="panel-organic"
   >
     <template #right>
@@ -20,28 +24,25 @@ const emit = defineEmits(['select-project-id']);
       </span>
     </template>
 
-    <div class="grid grid-cols-2 gap-2 shrink-0">
-      <div class="px-2 py-1.5 rounded bg-[#091222] border border-slate-800/80">
+    <div class="grid grid-cols-3 gap-1.5 shrink-0">
+      <div class="px-2 py-1 rounded bg-[#091222] border border-slate-800/80">
         <div class="text-[10px] text-slate-400">设计工作量</div>
-        <div class="flex items-baseline justify-between gap-1">
-          <span class="text-sm font-bold font-mono-num text-slate-100">
-            {{ stats.totalDesignTons.toLocaleString('zh-CN') }} 吨
-          </span>
-          <span class="text-[10px] font-mono-num text-slate-400">
-            {{ (stats.totalDesignMu / 10000).toFixed(1) }}万亩
-          </span>
+        <div class="text-xs font-bold font-mono-num text-slate-100 mt-0.5">
+          {{ formatNum(stats.totalDesignMu) }} 亩
         </div>
       </div>
 
-      <div class="px-2 py-1.5 rounded bg-[#091222] border border-slate-800/80">
+      <div class="px-2 py-1 rounded bg-[#091222] border border-slate-800/80">
         <div class="text-[10px] text-slate-400">播撒工作量</div>
-        <div class="flex items-baseline justify-between gap-1">
-          <span class="text-sm font-bold font-mono-num text-emerald-400">
-            {{ stats.totalSpreadTons.toLocaleString('zh-CN') }} 吨
-          </span>
-          <span class="text-[10px] font-mono-num text-emerald-300/80">
-            {{ (stats.totalSpreadMu / 10000).toFixed(1) }}万亩
-          </span>
+        <div class="text-xs font-bold font-mono-num text-emerald-400 mt-0.5">
+          {{ formatNum(stats.totalSpreadTons) }} 吨
+        </div>
+      </div>
+
+      <div class="px-2 py-1 rounded bg-[#091222] border border-slate-800/80">
+        <div class="text-[10px] text-slate-400">入库数量</div>
+        <div class="text-xs font-bold font-mono-num text-sky-400 mt-0.5">
+          {{ formatNum(stats.totalStockedTons) }} 吨
         </div>
       </div>
     </div>
@@ -51,7 +52,7 @@ const emit = defineEmits(['select-project-id']);
         v-if="stats.byProject.length === 0"
         class="flex-1 flex items-center justify-center text-xs text-slate-400 text-center"
       >
-        当前年份暂无「有机肥标段」工程
+        当前条件下暂无「有机肥标段」工程
       </div>
       <button
         v-for="item in stats.byProject"
@@ -65,8 +66,13 @@ const emit = defineEmits(['select-project-id']);
             {{ item.projectName }}
           </span>
           <span class="font-mono-num text-emerald-400 shrink-0">
-            {{ item.spreadTons }}/{{ item.designTons }}吨
+            {{ item.rate }}%
           </span>
+        </div>
+        <div class="mt-0.5 flex items-center justify-between gap-2 text-[10px] font-mono-num text-slate-400">
+          <span>设计 {{ formatNum(item.designMu) }}亩</span>
+          <span>播撒 {{ formatNum(item.spreadTons) }}吨</span>
+          <span class="text-sky-300">入库 {{ formatNum(item.stockedTons) }}吨</span>
         </div>
         <div class="mt-1 h-1 bg-slate-800 rounded-full overflow-hidden">
           <div

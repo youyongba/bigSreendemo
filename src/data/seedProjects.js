@@ -1,5 +1,5 @@
 export const SEED_PROJECTS = [
-  // ================= 2025 年项目（主力在建与验收推进年） =================
+  // ================= 2025 年项目 =================
   {
     id: 'jl-2025-01',
     year: 2025,
@@ -11,10 +11,57 @@ export const SEED_PROJECTS = [
     totalInvestment: 13600,
     status: '施工中',
     progressPercent: 78,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 85, // 实际 78% < 计划 85% -> 触发进度滞后提醒
     currentPhase: '田间渠系衬砌及有机肥深翻',
     plannedEndDate: '2026-10-30',
+    overview: {
+      code: 'JL-CC-NA-2025-001',
+      constructionUnit: '农安县农业农村局农田建设中心',
+      designUnit: '吉林省水利水电勘测设计研究院',
+      superviseOrg: '长春恒信工程监理咨询公司',
+      centralBudget: 9520,
+      localFunding: 4080,
+      startDate: '2025-04-15',
+      summary: '聚焦黑土地保护利用，围绕合隆镇、烧锅镇等4个乡镇实施高效节水灌溉、田间机耕路网及商品有机肥培肥工程。',
+    },
+    projectZones: [
+      { id: 'z-2501-1', name: '合隆镇第一项目区', township: '合隆镇', areaMu: 3.2, progressPercent: 88, plannedPercent: 90 },
+      { id: 'z-2501-2', name: '烧锅镇第二项目区', township: '烧锅镇', areaMu: 2.8, progressPercent: 76, plannedPercent: 85 },
+      { id: 'z-2501-3', name: '万顺乡第三项目区', township: '万顺乡', areaMu: 2.5, progressPercent: 68, plannedPercent: 80 },
+    ],
+    townships: [
+      { id: 'tw-2501-1', name: '合隆镇', coords: [125.16, 44.11], areaMu: 3.2, progressPercent: 88 },
+      { id: 'tw-2501-2', name: '烧锅镇', coords: [125.06, 44.32], areaMu: 2.8, progressPercent: 76 },
+      { id: 'tw-2501-3', name: '万顺乡', coords: [124.88, 44.52], areaMu: 2.5, progressPercent: 68 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2501-1', name: '合隆镇主干渠安全警示围挡点', township: '合隆镇', coords: [125.18, 44.14], status: '正常', detail: '配备安全警示牌14块、临边防护栏180m' },
+      { id: 'sp-2501-2', name: '烧锅镇机耕路交叉口安全标志点', township: '烧锅镇', coords: [125.09, 44.34], status: '待整改', detail: '临时交通疏导牌反光膜磨损，待更换' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2501-1', name: '合隆镇首部滴灌站记录仪01', township: '合隆镇', coords: [125.14, 44.13], online: true, deviceCode: 'REC-NA-001' },
+      { id: 'rp-2501-2', name: '烧锅镇斗沟护坡施工记录仪02', township: '烧锅镇', coords: [125.03, 44.31], online: true, deviceCode: 'REC-NA-002' },
+    ],
     safetySignCount: 46,
     safetySignDetails: { warning: 18, notice: 8, road: 12, protection: 8 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 42, supervisorApproved: 39 },
+      concealedSelfCheck: { uploaded: 28, supervisorApproved: 26 },
+      concreteSelfCheck: { uploaded: 19, supervisorApproved: 18 },
+      parallelCheck: { processPassed: 14, processTotal: 15, concealedPassed: 11, concealedTotal: 12 },
+      supervisorSideBySide: { count: 24, hours: 96, keyProcesses: 18 },
+      qualityPatrol: {
+        totalPatrols: 16,
+        issueCount: 3,
+        pendingRectifyCount: 1,
+        rectifiedCount: 2,
+        records: [
+          { id: 'qp-2501-1', title: '烧锅镇斗沟混凝土衬砌表面蜂窝麻面', township: '烧锅镇', sectionName: '一标段', status: '待整改', checkedAt: '2025-10-18', inspector: '赵明' },
+          { id: 'qp-2501-2', title: '合隆镇滴灌支管埋深复核合格', township: '合隆镇', sectionName: '一标段', status: '已整改', checkedAt: '2025-09-24', inspector: '周文博' },
+        ],
+      },
+    },
     sections: [
       {
         id: 'sec-2025-01-a',
@@ -45,9 +92,9 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2501-1', name: '高效节水滴灌主管网铺设', budgetAmount: 3600, completedRatio: 0.92, acceptanceStatus: '已验收' },
-          { id: 'eng-2501-2', name: '田间水泥机耕路硬化（24km）', budgetAmount: 3200, completedRatio: 0.8, acceptanceStatus: '已验收' },
-          { id: 'eng-2501-3', name: '排涝斗沟清淤及生态护坡', budgetAmount: 2400, completedRatio: 0.65, acceptanceStatus: '待验收' },
+          { id: 'eng-2501-1', name: '高效节水滴灌主管网铺设', category: '灌溉与排水', township: '合隆镇', budgetAmount: 3600, completedRatio: 0.92, acceptanceStatus: '已验收' },
+          { id: 'eng-2501-2', name: '田间水泥机耕路硬化（24km）', category: '田间道路', township: '烧锅镇', budgetAmount: 3200, completedRatio: 0.8, acceptanceStatus: '已验收' },
+          { id: 'eng-2501-3', name: '排涝斗沟清淤及生态护坡', category: '灌溉与排水', township: '万顺乡', budgetAmount: 2400, completedRatio: 0.65, acceptanceStatus: '待验收' },
         ],
       },
       {
@@ -73,11 +120,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2501-4',
             name: '腐熟商品有机肥抛撒与深翻还田',
+            category: '有机肥培肥',
+            township: '合隆镇',
             budgetAmount: 3100,
             completedRatio: 0.78,
             acceptanceStatus: '待验收',
             organicDesignTons: 4200,
             organicSpreadTons: 3280,
+            organicStockedTons: 3950,
             organicDesignMu: 35000,
             organicSpreadMu: 27300,
           },
@@ -96,12 +146,13 @@ export const SEED_PROJECTS = [
       { id: 'sup-2501-2', name: '周文博', role: '专业监理工程师', org: '长春恒信监理', requiredDays: 120, actualCheckIns: 112, todayCheckedIn: true, lastCheckInTime: '08:41' },
     ],
     constructionStaff: [
-      { id: 'con-2501-1', name: '刘振华', role: '项目经理', org: '吉农水利工程', sectionName: '一标段', onDutyStatus: '在岗备案' },
-      { id: 'con-2501-2', name: '李志强', role: '专职质检员', org: '吉农水利工程', sectionName: '一标段', onDutyStatus: '在岗备案' },
-      { id: 'con-2501-3', name: '孙立伟', role: '技术负责人', org: '沃土生态肥业', sectionName: '二标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2501-1', name: '刘振华', role: '项目经理', org: '吉农水利工程', sectionName: '一标段', requiredDays: 120, actualCheckIns: 114, todayCheckedIn: true, lastCheckInTime: '07:52' },
+      { id: 'con-2501-2', name: '李志强', role: '专职质检员', org: '吉农水利工程', sectionName: '一标段', requiredDays: 120, actualCheckIns: 110, todayCheckedIn: true, lastCheckInTime: '08:03' },
+      { id: 'con-2501-3', name: '孙立伟', role: '技术负责人', org: '沃土生态肥业', sectionName: '二标段', requiredDays: 90, actualCheckIns: 82, todayCheckedIn: false, lastCheckInTime: '昨日 17:40' },
     ],
     handover: { status: '待移交', agreementSigned: false },
   },
+
   {
     id: 'jl-2025-02',
     year: 2025,
@@ -113,10 +164,54 @@ export const SEED_PROJECTS = [
     totalInvestment: 10800,
     status: '施工中',
     progressPercent: 64,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 75, // 实际 64% < 计划 75% -> 滞后提醒
     currentPhase: '机电井配套及智能水肥一体站安装',
     plannedEndDate: '2026-11-15',
+    overview: {
+      code: 'JL-SP-LS-2025-002',
+      constructionUnit: '梨树县高标准农田建设办公室',
+      designUnit: '四平市农业工程规划设计院',
+      superviseOrg: '吉林省科信工程监理中心',
+      centralBudget: 7560,
+      localFunding: 3240,
+      startDate: '2025-05-01',
+      summary: '结合“梨树模式”保护性耕作，推进郭家店镇、十家堡镇高标准机电井、格田改造与生物有机肥增施。',
+    },
+    projectZones: [
+      { id: 'z-2502-1', name: '郭家店镇核心片区', township: '郭家店镇', areaMu: 3.6, progressPercent: 72, plannedPercent: 80 },
+      { id: 'z-2502-2', name: '十家堡镇示范片区', township: '十家堡镇', areaMu: 3.2, progressPercent: 56, plannedPercent: 70 },
+    ],
+    townships: [
+      { id: 'tw-2502-1', name: '郭家店镇', coords: [124.51, 43.36], areaMu: 3.6, progressPercent: 72 },
+      { id: 'tw-2502-2', name: '十家堡镇', coords: [124.42, 43.44], areaMu: 3.2, progressPercent: 56 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2502-1', name: '郭家店镇井房配电箱防护点', township: '郭家店镇', coords: [124.50, 43.35], status: '正常', detail: '绝缘防护、漏电保护与警示标志齐全' },
+      { id: 'sp-2502-2', name: '十家堡镇管沟开挖临边防护点', township: '十家堡镇', coords: [124.41, 43.43], status: '待整改', detail: '基坑南侧警戒线松动，需加固' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2502-1', name: '郭家店镇水肥一体站记录仪01', township: '郭家店镇', coords: [124.52, 43.37], online: true, deviceCode: 'REC-LS-001' },
+    ],
     safetySignCount: 38,
     safetySignDetails: { warning: 14, notice: 6, road: 10, protection: 8 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 31, supervisorApproved: 28 },
+      concealedSelfCheck: { uploaded: 22, supervisorApproved: 19 },
+      concreteSelfCheck: { uploaded: 14, supervisorApproved: 13 },
+      parallelCheck: { processPassed: 10, processTotal: 12, concealedPassed: 8, concealedTotal: 9 },
+      supervisorSideBySide: { count: 19, hours: 76, keyProcesses: 14 },
+      qualityPatrol: {
+        totalPatrols: 12,
+        issueCount: 4,
+        pendingRectifyCount: 2,
+        rectifiedCount: 2,
+        records: [
+          { id: 'qp-2502-1', title: '十家堡镇管沟回填土含石块超标', township: '十家堡镇', sectionName: '一标段', status: '待整改', checkedAt: '2025-10-12', inspector: '马俊' },
+          { id: 'qp-2502-2', title: '郭家店镇有机肥堆放防雨遮盖不足', township: '郭家店镇', sectionName: '二标段', status: '待整改', checkedAt: '2025-10-16', inspector: '马俊' },
+        ],
+      },
+    },
     sections: [
       {
         id: 'sec-2025-02-a',
@@ -138,9 +233,9 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2502-1', name: '高标准机电井成井（48眼）', budgetAmount: 2900, completedRatio: 0.85, acceptanceStatus: '已验收' },
-          { id: 'eng-2502-2', name: '首部智能化首站与变频柜', budgetAmount: 2200, completedRatio: 0.55, acceptanceStatus: '待验收' },
-          { id: 'eng-2502-3', name: '田间田块平整及格田改造', budgetAmount: 2000, completedRatio: 0.72, acceptanceStatus: '待验收' },
+          { id: 'eng-2502-1', name: '高标准机电井成井（48眼）', category: '灌溉与排水', township: '郭家店镇', budgetAmount: 2900, completedRatio: 0.85, acceptanceStatus: '已验收' },
+          { id: 'eng-2502-2', name: '首部智能化首站与变频柜', category: '灌溉与排水', township: '郭家店镇', budgetAmount: 2200, completedRatio: 0.55, acceptanceStatus: '待验收' },
+          { id: 'eng-2502-3', name: '田间田块平整及格田改造', category: '土地平整', township: '十家堡镇', budgetAmount: 2000, completedRatio: 0.72, acceptanceStatus: '待验收' },
         ],
       },
       {
@@ -166,11 +261,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2502-4',
             name: '生物有机肥机械化定量播撒',
+            category: '有机肥培肥',
+            township: '十家堡镇',
             budgetAmount: 2600,
             completedRatio: 0.58,
             acceptanceStatus: '待验收',
             organicDesignTons: 3400,
             organicSpreadTons: 1980,
+            organicStockedTons: 2850,
             organicDesignMu: 28000,
             organicSpreadMu: 16240,
           },
@@ -188,12 +286,13 @@ export const SEED_PROJECTS = [
       { id: 'sup-2502-2', name: '林海涛', role: '监理员', org: '科信监理', requiredDays: 105, actualCheckIns: 94, todayCheckedIn: false, lastCheckInTime: '昨日 17:32' },
     ],
     constructionStaff: [
-      { id: 'con-2502-1', name: '张强', role: '项目经理', org: '四平宏达', sectionName: '一标段', onDutyStatus: '在岗备案' },
-      { id: 'con-2502-2', name: '王志远', role: '专职安全员', org: '四平宏达', sectionName: '一标段', onDutyStatus: '在岗备案' },
-      { id: 'con-2502-3', name: '陈刚', role: '施工员', org: '四平黑土农业', sectionName: '二标段', onDutyStatus: '待进场' },
+      { id: 'con-2502-1', name: '张强', role: '项目经理', org: '四平宏达', sectionName: '一标段', requiredDays: 105, actualCheckIns: 99, todayCheckedIn: true, lastCheckInTime: '07:45' },
+      { id: 'con-2502-2', name: '王志远', role: '专职安全员', org: '四平宏达', sectionName: '一标段', requiredDays: 105, actualCheckIns: 96, todayCheckedIn: true, lastCheckInTime: '07:58' },
+      { id: 'con-2502-3', name: '陈刚', role: '施工员', org: '四平黑土农业', sectionName: '二标段', requiredDays: 90, actualCheckIns: 74, todayCheckedIn: false, lastCheckInTime: '昨日 16:50' },
     ],
     handover: { status: '待移交', agreementSigned: false },
   },
+
   {
     id: 'jl-2025-03',
     year: 2025,
@@ -205,10 +304,52 @@ export const SEED_PROJECTS = [
     totalInvestment: 8900,
     status: '施工中',
     progressPercent: 86,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 82, // 实际 86% >= 计划 82% -> 无滞后提醒
     currentPhase: '泵站调试与农田防护林补植',
     plannedEndDate: '2026-06-30',
+    overview: {
+      code: 'JL-SY-FY-2025-003',
+      constructionUnit: '扶余市农业农村局',
+      designUnit: '松原市水利勘测设计院',
+      superviseOrg: '吉林盛世工程监理公司',
+      centralBudget: 6230,
+      localFunding: 2670,
+      startDate: '2025-04-10',
+      summary: '依托松花江提水灌区，实施泵站机组节能改造、U型渠道防渗衬砌及有机肥培肥。',
+    },
+    projectZones: [
+      { id: 'z-2503-1', name: '三岔河镇灌区片', township: '三岔河镇', areaMu: 3.1, progressPercent: 90, plannedPercent: 85 },
+      { id: 'z-2503-2', name: '陶赖昭镇渠系片', township: '陶赖昭镇', areaMu: 2.3, progressPercent: 81, plannedPercent: 78 },
+    ],
+    townships: [
+      { id: 'tw-2503-1', name: '三岔河镇', coords: [125.92, 45.05], areaMu: 3.1, progressPercent: 90 },
+      { id: 'tw-2503-2', name: '陶赖昭镇', coords: [126.15, 44.93], areaMu: 2.3, progressPercent: 81 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2503-1', name: '三岔河镇提水泵站临水安全点', township: '三岔河镇', coords: [125.91, 45.06], status: '正常', detail: '救生设备与涉水警示牌已配备到位' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2503-1', name: '三岔河泵站调试记录仪01', township: '三岔河镇', coords: [125.94, 45.04], online: true, deviceCode: 'REC-FY-001' },
+    ],
     safetySignCount: 34,
     safetySignDetails: { warning: 12, notice: 6, road: 10, protection: 6 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 38, supervisorApproved: 37 },
+      concealedSelfCheck: { uploaded: 24, supervisorApproved: 24 },
+      concreteSelfCheck: { uploaded: 22, supervisorApproved: 21 },
+      parallelCheck: { processPassed: 12, processTotal: 12, concealedPassed: 10, concealedTotal: 10 },
+      supervisorSideBySide: { count: 21, hours: 84, keyProcesses: 16 },
+      qualityPatrol: {
+        totalPatrols: 14,
+        issueCount: 1,
+        pendingRectifyCount: 0,
+        rectifiedCount: 1,
+        records: [
+          { id: 'qp-2503-1', title: '陶赖昭镇U型槽接口砂浆收面已完成整改', township: '陶赖昭镇', sectionName: '一标段', status: '已整改', checkedAt: '2025-09-10', inspector: '冯军' },
+        ],
+      },
+    },
     sections: [
       {
         id: 'sec-2025-03-a',
@@ -230,8 +371,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2503-1', name: '提水泵站机组更新改造', budgetAmount: 3100, completedRatio: 0.95, acceptanceStatus: '已验收' },
-          { id: 'eng-2503-2', name: 'U型防渗衬砌渠道（18.5km）', budgetAmount: 3200, completedRatio: 0.82, acceptanceStatus: '已验收' },
+          { id: 'eng-2503-1', name: '提水泵站机组更新改造', category: '灌溉与排水', township: '三岔河镇', budgetAmount: 3100, completedRatio: 0.95, acceptanceStatus: '已验收' },
+          { id: 'eng-2503-2', name: 'U型防渗衬砌渠道（18.5km）', category: '灌溉与排水', township: '陶赖昭镇', budgetAmount: 3200, completedRatio: 0.82, acceptanceStatus: '已验收' },
         ],
       },
       {
@@ -257,11 +398,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2503-3',
             name: '堆沤有机肥条施与旋耕混匀',
+            category: '有机肥培肥',
+            township: '三岔河镇',
             budgetAmount: 1900,
             completedRatio: 0.88,
             acceptanceStatus: '待验收',
             organicDesignTons: 2500,
             organicSpreadTons: 2210,
+            organicStockedTons: 2500,
             organicDesignMu: 21000,
             organicSpreadMu: 18500,
           },
@@ -277,11 +421,12 @@ export const SEED_PROJECTS = [
       { id: 'sup-2503-1', name: '冯军', role: '总监理工程师', org: '盛世监理', requiredDays: 110, actualCheckIns: 107, todayCheckedIn: true, lastCheckInTime: '08:05' },
     ],
     constructionStaff: [
-      { id: 'con-2503-1', name: '刘凯', role: '项目经理', org: '江河水利', sectionName: '一标段', onDutyStatus: '在岗备案' },
-      { id: 'con-2503-2', name: '赵旭东', role: '安全负责人', org: '绿源生物', sectionName: '二标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2503-1', name: '刘凯', role: '项目经理', org: '江河水利', sectionName: '一标段', requiredDays: 110, actualCheckIns: 106, todayCheckedIn: true, lastCheckInTime: '07:50' },
+      { id: 'con-2503-2', name: '赵旭东', role: '安全负责人', org: '绿源生物', sectionName: '二标段', requiredDays: 100, actualCheckIns: 95, todayCheckedIn: true, lastCheckInTime: '08:01' },
     ],
     handover: { status: '移交办理中', custodianUnit: '扶余市农业技术推广总站', agreementSigned: false },
   },
+
   {
     id: 'jl-2025-04',
     year: 2025,
@@ -293,10 +438,52 @@ export const SEED_PROJECTS = [
     totalInvestment: 11800,
     status: '待验收',
     progressPercent: 100,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 100,
     currentPhase: '市级竣工初验材料归档',
     plannedEndDate: '2025-11-20',
+    overview: {
+      code: 'JL-BC-ZL-2025-004',
+      constructionUnit: '镇赉县农业农村局',
+      designUnit: '白城市水利水电规划设计院',
+      superviseOrg: '吉林中水工程监理公司',
+      centralBudget: 8260,
+      localFunding: 3540,
+      startDate: '2025-03-25',
+      summary: '针对镇赉盐碱耕地开展暗管排碱洗盐、田间桥涵配套与腐殖酸有机肥土壤改良。',
+    },
+    projectZones: [
+      { id: 'z-2504-1', name: '镇赉镇暗管排碱区', township: '镇赉镇', areaMu: 4.0, progressPercent: 100, plannedPercent: 100 },
+      { id: 'z-2504-2', name: '莫莫格乡改土区', township: '莫莫格乡', areaMu: 3.2, progressPercent: 100, plannedPercent: 100 },
+    ],
+    townships: [
+      { id: 'tw-2504-1', name: '镇赉镇', coords: [123.20, 45.85], areaMu: 4.0, progressPercent: 100 },
+      { id: 'tw-2504-2', name: '莫莫格乡', coords: [123.62, 45.92], areaMu: 3.2, progressPercent: 100 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2504-1', name: '镇赉镇排碱闸站安全警示点', township: '镇赉镇', coords: [123.24, 45.86], status: '正常', detail: '护栏及警示标识验收合格' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2504-1', name: '莫莫格乡改土区记录仪01', township: '莫莫格乡', coords: [123.60, 45.90], online: true, deviceCode: 'REC-ZL-001' },
+    ],
     safetySignCount: 41,
     safetySignDetails: { warning: 15, notice: 8, road: 10, protection: 8 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 46, supervisorApproved: 46 },
+      concealedSelfCheck: { uploaded: 34, supervisorApproved: 34 },
+      concreteSelfCheck: { uploaded: 20, supervisorApproved: 20 },
+      parallelCheck: { processPassed: 16, processTotal: 16, concealedPassed: 14, concealedTotal: 14 },
+      supervisorSideBySide: { count: 26, hours: 104, keyProcesses: 20 },
+      qualityPatrol: {
+        totalPatrols: 18,
+        issueCount: 2,
+        pendingRectifyCount: 0,
+        rectifiedCount: 2,
+        records: [
+          { id: 'qp-2504-1', title: '莫莫格乡过路涵翼墙护坡已整改到位', township: '莫莫格乡', sectionName: '一标段', status: '已整改', checkedAt: '2025-10-02', inspector: '胡建军' },
+        ],
+      },
+    },
     sections: [
       {
         id: 'sec-2025-04-a',
@@ -318,8 +505,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2504-1', name: '暗管排碱工程管网（110km）', budgetAmount: 4800, completedRatio: 1, acceptanceStatus: '已验收' },
-          { id: 'eng-2504-2', name: '过路涵闸及田间桥涵（32座）', budgetAmount: 3300, completedRatio: 1, acceptanceStatus: '待验收' },
+          { id: 'eng-2504-1', name: '暗管排碱工程管网（110km）', category: '灌溉与排水', township: '镇赉镇', budgetAmount: 4800, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2504-2', name: '过路涵闸及田间桥涵（32座）', category: '田间道路', township: '莫莫格乡', budgetAmount: 3300, completedRatio: 1, acceptanceStatus: '待验收' },
         ],
       },
       {
@@ -345,11 +532,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2504-3',
             name: '腐殖酸有机肥深施改良',
+            category: '有机肥培肥',
+            township: '莫莫格乡',
             budgetAmount: 2900,
             completedRatio: 1,
             acceptanceStatus: '待验收',
             organicDesignTons: 3800,
             organicSpreadTons: 3800,
+            organicStockedTons: 3800,
             organicDesignMu: 30000,
             organicSpreadMu: 30000,
           },
@@ -364,10 +554,11 @@ export const SEED_PROJECTS = [
       { id: 'sup-2504-1', name: '胡建军', role: '总监理工程师', org: '中水监理', requiredDays: 130, actualCheckIns: 128, todayCheckedIn: true, lastCheckInTime: '08:19' },
     ],
     constructionStaff: [
-      { id: 'con-2504-1', name: '杨帆', role: '项目经理', org: '西部农水', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2504-1', name: '杨帆', role: '项目经理', org: '西部农水', sectionName: '一标段', requiredDays: 130, actualCheckIns: 125, todayCheckedIn: true, lastCheckInTime: '07:55' },
     ],
     handover: { status: '移交办理中', custodianUnit: '镇赉县莫莫格灌区管护中心', agreementSigned: true },
   },
+
   {
     id: 'jl-2025-05',
     year: 2025,
@@ -379,10 +570,48 @@ export const SEED_PROJECTS = [
     totalInvestment: 7600,
     status: '已验收',
     progressPercent: 100,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 100,
     currentPhase: '完成市级验收并签署管护协议',
     plannedEndDate: '2025-10-15',
+    overview: {
+      code: 'JL-JL-SL-2025-005',
+      constructionUnit: '舒兰市农业农村局',
+      designUnit: '吉林市水利水电勘测设计院',
+      superviseOrg: '吉林江城建设监理公司',
+      centralBudget: 5320,
+      localFunding: 2280,
+      startDate: '2025-04-02',
+      summary: '聚焦舒兰稻米主产区，建设高标准水田格田化整治、生态排水沟及智能分水闸工程。',
+    },
+    projectZones: [
+      { id: 'z-2505-1', name: '平安镇水田格田片', township: '平安镇', areaMu: 4.9, progressPercent: 100, plannedPercent: 100 },
+    ],
+    townships: [
+      { id: 'tw-2505-1', name: '平安镇', coords: [126.86, 44.36], areaMu: 4.9, progressPercent: 100 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2505-1', name: '平安镇分水闸安全标识点', township: '平安镇', coords: [126.87, 44.37], status: '正常', detail: '启闭机房安全规程牌与防护网合格' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2505-1', name: '平安镇稻区管护站记录仪01', township: '平安镇', coords: [126.85, 44.35], online: true, deviceCode: 'REC-SL-001' },
+    ],
     safetySignCount: 29,
     safetySignDetails: { warning: 10, notice: 5, road: 8, protection: 6 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 30, supervisorApproved: 30 },
+      concealedSelfCheck: { uploaded: 18, supervisorApproved: 18 },
+      concreteSelfCheck: { uploaded: 15, supervisorApproved: 15 },
+      parallelCheck: { processPassed: 10, processTotal: 10, concealedPassed: 8, concealedTotal: 8 },
+      supervisorSideBySide: { count: 16, hours: 64, keyProcesses: 12 },
+      qualityPatrol: {
+        totalPatrols: 12,
+        issueCount: 0,
+        pendingRectifyCount: 0,
+        rectifiedCount: 0,
+        records: [],
+      },
+    },
     sections: [
       {
         id: 'sec-2025-05-a',
@@ -404,8 +633,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2505-1', name: '水田格田归并及田埂修筑', budgetAmount: 3900, completedRatio: 1, acceptanceStatus: '已验收' },
-          { id: 'eng-2505-2', name: '生态排水沟与分水闸工程', budgetAmount: 3000, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2505-1', name: '水田格田归并及田埂修筑', category: '土地平整', township: '平安镇', budgetAmount: 3900, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2505-2', name: '生态排水沟与分水闸工程', category: '灌溉与排水', township: '平安镇', budgetAmount: 3000, completedRatio: 1, acceptanceStatus: '已验收' },
         ],
       },
     ],
@@ -417,7 +646,7 @@ export const SEED_PROJECTS = [
       { id: 'sup-2505-1', name: '魏东', role: '总监理工程师', org: '江城监理', requiredDays: 95, actualCheckIns: 95, todayCheckedIn: true, lastCheckInTime: '08:30' },
     ],
     constructionStaff: [
-      { id: 'con-2505-1', name: '钱进', role: '项目经理', org: '龙潭水利', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2505-1', name: '钱进', role: '项目经理', org: '龙潭水利', sectionName: '一标段', requiredDays: 95, actualCheckIns: 94, todayCheckedIn: true, lastCheckInTime: '07:50' },
     ],
     handover: {
       status: '已移交管护',
@@ -426,6 +655,7 @@ export const SEED_PROJECTS = [
       agreementSigned: true,
     },
   },
+
   {
     id: 'jl-2025-06',
     year: 2025,
@@ -437,10 +667,52 @@ export const SEED_PROJECTS = [
     totalInvestment: 6850,
     status: '施工中',
     progressPercent: 52,
+    hasSchedulePlan: false, // 重点测试案例：未设置进度计划 -> 不触发进度滞后提醒
+    plannedProgressPercent: null,
     currentPhase: '田间道路路基成型及护岸施工',
     plannedEndDate: '2026-09-20',
+    overview: {
+      code: 'JL-YB-DH-2025-006',
+      constructionUnit: '敦化市农田建设服务中心',
+      designUnit: '延边州农业工程设计研究院',
+      superviseOrg: '延吉兴业工程监理公司',
+      centralBudget: 4795,
+      localFunding: 2055,
+      startDate: '2025-06-05',
+      summary: '结合冷凉山区生态水土保持要求，开展大石头镇格宾生态护岸、砂石作业路及冷凉区有机肥深施。',
+    },
+    projectZones: [
+      { id: 'z-2506-1', name: '大石头镇生态护岸区', township: '大石头镇', areaMu: 2.3, progressPercent: 58, plannedPercent: null },
+      { id: 'z-2506-2', name: '官地镇有机肥培肥区', township: '官地镇', areaMu: 1.9, progressPercent: 45, plannedPercent: null },
+    ],
+    townships: [
+      { id: 'tw-2506-1', name: '大石头镇', coords: [128.48, 43.31], areaMu: 2.3, progressPercent: 58 },
+      { id: 'tw-2506-2', name: '官地镇', coords: [128.12, 43.54], areaMu: 1.9, progressPercent: 45 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2506-1', name: '大石头镇河岸作业防坠警示点', township: '大石头镇', coords: [128.47, 43.32], status: '正常', detail: '河道边坡警示标识完好' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2506-1', name: '官地镇有机肥施用记录仪01', township: '官地镇', coords: [128.14, 43.53], online: true, deviceCode: 'REC-DH-001' },
+    ],
     safetySignCount: 25,
     safetySignDetails: { warning: 9, notice: 4, road: 8, protection: 4 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 21, supervisorApproved: 19 },
+      concealedSelfCheck: { uploaded: 15, supervisorApproved: 14 },
+      concreteSelfCheck: { uploaded: 9, supervisorApproved: 8 },
+      parallelCheck: { processPassed: 7, processTotal: 8, concealedPassed: 6, concealedTotal: 6 },
+      supervisorSideBySide: { count: 13, hours: 52, keyProcesses: 10 },
+      qualityPatrol: {
+        totalPatrols: 9,
+        issueCount: 1,
+        pendingRectifyCount: 1,
+        rectifiedCount: 0,
+        records: [
+          { id: 'qp-2506-1', title: '大石头镇砂石路边沟压实度局部偏低', township: '大石头镇', sectionName: '一标段', status: '待整改', checkedAt: '2025-10-19', inspector: '崔敏' },
+        ],
+      },
+    },
     sections: [
       {
         id: 'sec-2025-06-a',
@@ -462,8 +734,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2506-1', name: '格宾石笼生态护岸（6.2km）', budgetAmount: 2700, completedRatio: 0.58, acceptanceStatus: '待验收' },
-          { id: 'eng-2506-2', name: '砂石机耕道路网修筑', budgetAmount: 2000, completedRatio: 0.45, acceptanceStatus: '待验收' },
+          { id: 'eng-2506-1', name: '格宾石笼生态护岸（6.2km）', category: '灌溉与排水', township: '大石头镇', budgetAmount: 2700, completedRatio: 0.58, acceptanceStatus: '待验收' },
+          { id: 'eng-2506-2', name: '砂石机耕道路网修筑', category: '田间道路', township: '大石头镇', budgetAmount: 2000, completedRatio: 0.45, acceptanceStatus: '待验收' },
         ],
       },
       {
@@ -489,11 +761,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2506-3',
             name: '冷凉区腐熟有机肥施用工程',
+            category: '有机肥培肥',
+            township: '官地镇',
             budgetAmount: 1550,
             completedRatio: 0.5,
             acceptanceStatus: '待验收',
             organicDesignTons: 1950,
             organicSpreadTons: 980,
+            organicStockedTons: 1450,
             organicDesignMu: 16000,
             organicSpreadMu: 8000,
           },
@@ -509,13 +784,13 @@ export const SEED_PROJECTS = [
       { id: 'sup-2506-1', name: '崔敏', role: '总监理工程师', org: '延吉兴业监理', requiredDays: 88, actualCheckIns: 82, todayCheckedIn: true, lastCheckInTime: '08:11' },
     ],
     constructionStaff: [
-      { id: 'con-2506-1', name: '朴成哲', role: '项目经理', org: '长白水利', sectionName: '一标段', onDutyStatus: '在岗备案' },
-      { id: 'con-2506-2', name: '全海峰', role: '安全员', org: '绿色农资', sectionName: '二标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2506-1', name: '朴成哲', role: '项目经理', org: '长白水利', sectionName: '一标段', requiredDays: 88, actualCheckIns: 84, todayCheckedIn: true, lastCheckInTime: '07:48' },
+      { id: 'con-2506-2', name: '全海峰', role: '安全员', org: '绿色农资', sectionName: '二标段', requiredDays: 80, actualCheckIns: 75, todayCheckedIn: true, lastCheckInTime: '08:06' },
     ],
     handover: { status: '待移交', agreementSigned: false },
   },
 
-  // ================= 2026 年项目（当年新开工与全面施工） =================
+  // ================= 2026 年项目 =================
   {
     id: 'jl-2026-01',
     year: 2026,
@@ -527,10 +802,52 @@ export const SEED_PROJECTS = [
     totalInvestment: 15200,
     status: '施工中',
     progressPercent: 44,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 52, // 44% < 52% -> 滞后提醒
     currentPhase: '表土剥离回填及主干渠土方开挖',
     plannedEndDate: '2027-09-30',
+    overview: {
+      code: 'JL-CC-YS-2026-001',
+      constructionUnit: '榆树市农业农村局',
+      designUnit: '吉林省水利水电勘测设计研究院',
+      superviseOrg: '长春恒信工程监理咨询公司',
+      centralBudget: 10640,
+      localFunding: 4560,
+      startDate: '2026-04-20',
+      summary: '在五棵树镇、弓棚镇实施黑土侵蚀沟治理、农田输配电改造及玉米秸秆腐熟有机肥深施。',
+    },
+    projectZones: [
+      { id: 'z-2601-1', name: '五棵树镇黑土保育区', township: '五棵树镇', areaMu: 5.2, progressPercent: 49, plannedPercent: 55 },
+      { id: 'z-2601-2', name: '弓棚镇干渠配套区', township: '弓棚镇', areaMu: 4.4, progressPercent: 38, plannedPercent: 48 },
+    ],
+    townships: [
+      { id: 'tw-2601-1', name: '五棵树镇', coords: [126.25, 44.78], areaMu: 5.2, progressPercent: 49 },
+      { id: 'tw-2601-2', name: '弓棚镇', coords: [126.72, 44.88], areaMu: 4.4, progressPercent: 38 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2601-1', name: '五棵树镇侵蚀沟边坡围挡点', township: '五棵树镇', coords: [126.27, 44.79], status: '待整改', detail: '深沟临边反光警示带缺失约30米' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2601-1', name: '五棵树镇输配电施工记录仪01', township: '五棵树镇', coords: [126.24, 44.77], online: true, deviceCode: 'REC-YS-001' },
+    ],
     safetySignCount: 52,
     safetySignDetails: { warning: 20, notice: 10, road: 14, protection: 8 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 26, supervisorApproved: 23 },
+      concealedSelfCheck: { uploaded: 17, supervisorApproved: 15 },
+      concreteSelfCheck: { uploaded: 11, supervisorApproved: 10 },
+      parallelCheck: { processPassed: 8, processTotal: 9, concealedPassed: 6, concealedTotal: 7 },
+      supervisorSideBySide: { count: 15, hours: 60, keyProcesses: 11 },
+      qualityPatrol: {
+        totalPatrols: 10,
+        issueCount: 2,
+        pendingRectifyCount: 1,
+        rectifiedCount: 1,
+        records: [
+          { id: 'qp-2601-1', title: '弓棚镇渠道混凝土预制块强度养护不足', township: '弓棚镇', sectionName: '一标段', status: '待整改', checkedAt: '2026-09-10', inspector: '赵明' },
+        ],
+      },
+    },
     sections: [
       {
         id: 'sec-2026-01-a',
@@ -561,9 +878,9 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2601-1', name: '黑土区侵蚀沟治理工程', budgetAmount: 4500, completedRatio: 0.55, acceptanceStatus: '待验收' },
-          { id: 'eng-2601-2', name: '农田输配电线路架设（36km）', budgetAmount: 3200, completedRatio: 0.4, acceptanceStatus: '待验收' },
-          { id: 'eng-2601-3', name: '装配式混凝土渠系', budgetAmount: 2800, completedRatio: 0.35, acceptanceStatus: '待验收' },
+          { id: 'eng-2601-1', name: '黑土区侵蚀沟治理工程', category: '土地平整', township: '五棵树镇', budgetAmount: 4500, completedRatio: 0.55, acceptanceStatus: '待验收' },
+          { id: 'eng-2601-2', name: '农田输配电线路架设（36km）', category: '灌溉与排水', township: '五棵树镇', budgetAmount: 3200, completedRatio: 0.4, acceptanceStatus: '待验收' },
+          { id: 'eng-2601-3', name: '装配式混凝土渠系', category: '灌溉与排水', township: '弓棚镇', budgetAmount: 2800, completedRatio: 0.35, acceptanceStatus: '待验收' },
         ],
       },
       {
@@ -589,11 +906,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2601-4',
             name: '玉米秸秆腐熟有机肥深施工程',
+            category: '有机肥培肥',
+            township: '弓棚镇',
             budgetAmount: 3600,
             completedRatio: 0.38,
             acceptanceStatus: '待验收',
             organicDesignTons: 5100,
             organicSpreadTons: 1940,
+            organicStockedTons: 3200,
             organicDesignMu: 42000,
             organicSpreadMu: 15960,
           },
@@ -610,12 +930,13 @@ export const SEED_PROJECTS = [
       { id: 'sup-2601-2', name: '孙丽华', role: '专业监理工程师', org: '长春恒信监理', requiredDays: 72, actualCheckIns: 64, todayCheckedIn: true, lastCheckInTime: '08:49' },
     ],
     constructionStaff: [
-      { id: 'con-2601-1', name: '田野', role: '项目经理', org: '农基建集团', sectionName: '一标段', onDutyStatus: '在岗备案' },
-      { id: 'con-2601-2', name: '王海波', role: '安全员', org: '农基建集团', sectionName: '一标段', onDutyStatus: '在岗备案' },
-      { id: 'con-2601-3', name: '郑伟', role: '施工队长', org: '丰年合作社', sectionName: '二标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2601-1', name: '田野', role: '项目经理', org: '农基建集团', sectionName: '一标段', requiredDays: 72, actualCheckIns: 69, todayCheckedIn: true, lastCheckInTime: '07:40' },
+      { id: 'con-2601-2', name: '王海波', role: '安全员', org: '农基建集团', sectionName: '一标段', requiredDays: 72, actualCheckIns: 66, todayCheckedIn: true, lastCheckInTime: '07:55' },
+      { id: 'con-2601-3', name: '郑伟', role: '施工队长', org: '丰年合作社', sectionName: '二标段', requiredDays: 60, actualCheckIns: 53, todayCheckedIn: false, lastCheckInTime: '昨日 17:15' },
     ],
     handover: { status: '待移交', agreementSigned: false },
   },
+
   {
     id: 'jl-2026-02',
     year: 2026,
@@ -627,10 +948,44 @@ export const SEED_PROJECTS = [
     totalInvestment: 7400,
     status: '施工中',
     progressPercent: 39,
+    hasSchedulePlan: false, // 无进度计划 -> 不提醒
+    plannedProgressPercent: null,
     currentPhase: '田间道路路槽整形与泵站基坑支护',
     plannedEndDate: '2027-08-25',
+    overview: {
+      code: 'JL-TH-MHK-2026-002',
+      constructionUnit: '梅河口市农业农村局',
+      designUnit: '通化市水利勘测设计院',
+      superviseOrg: '吉林东兴工程监理公司',
+      centralBudget: 5180,
+      localFunding: 2220,
+      startDate: '2026-05-10',
+      summary: '在海龙镇、山城镇实施稻田生态挡墙护坎、机耕道路硬化及精准有机肥播撒工程。',
+    },
+    projectZones: [
+      { id: 'z-2602-1', name: '海龙镇现代稻田片', township: '海龙镇', areaMu: 2.5, progressPercent: 42, plannedPercent: null },
+      { id: 'z-2602-2', name: '山城镇道路护坎片', township: '山城镇', areaMu: 2.0, progressPercent: 35, plannedPercent: null },
+    ],
+    townships: [
+      { id: 'tw-2602-1', name: '海龙镇', coords: [125.82, 42.56], areaMu: 2.5, progressPercent: 42 },
+      { id: 'tw-2602-2', name: '山城镇', coords: [125.56, 42.45], areaMu: 2.0, progressPercent: 35 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2602-1', name: '海龙镇泵站基坑支护安全点', township: '海龙镇', coords: [125.81, 42.55], status: '正常', detail: '基坑支护监测点与安全护栏完好' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2602-1', name: '海龙镇基坑施工记录仪01', township: '海龙镇', coords: [125.83, 42.57], online: true, deviceCode: 'REC-MHK-001' },
+    ],
     safetySignCount: 31,
     safetySignDetails: { warning: 12, notice: 5, road: 9, protection: 5 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 18, supervisorApproved: 17 },
+      concealedSelfCheck: { uploaded: 12, supervisorApproved: 11 },
+      concreteSelfCheck: { uploaded: 8, supervisorApproved: 8 },
+      parallelCheck: { processPassed: 6, processTotal: 6, concealedPassed: 5, concealedTotal: 5 },
+      supervisorSideBySide: { count: 11, hours: 44, keyProcesses: 8 },
+      qualityPatrol: { totalPatrols: 7, issueCount: 0, pendingRectifyCount: 0, rectifiedCount: 0, records: [] },
+    },
     sections: [
       {
         id: 'sec-2026-02-a',
@@ -652,8 +1007,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2602-1', name: '生态挡墙护坎（4.8km）', budgetAmount: 2800, completedRatio: 0.42, acceptanceStatus: '待验收' },
-          { id: 'eng-2602-2', name: '田间机耕路网硬化', budgetAmount: 2400, completedRatio: 0.35, acceptanceStatus: '待验收' },
+          { id: 'eng-2602-1', name: '生态挡墙护坎（4.8km）', category: '土地平整', township: '海龙镇', budgetAmount: 2800, completedRatio: 0.42, acceptanceStatus: '待验收' },
+          { id: 'eng-2602-2', name: '田间机耕路网硬化', category: '田间道路', township: '山城镇', budgetAmount: 2400, completedRatio: 0.35, acceptanceStatus: '待验收' },
         ],
       },
       {
@@ -679,11 +1034,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2602-3',
             name: '水稻田精准有机肥播撒',
+            category: '有机肥培肥',
+            township: '海龙镇',
             budgetAmount: 1650,
             completedRatio: 0.4,
             acceptanceStatus: '待验收',
             organicDesignTons: 2100,
             organicSpreadTons: 840,
+            organicStockedTons: 1400,
             organicDesignMu: 17500,
             organicSpreadMu: 7000,
           },
@@ -698,11 +1056,12 @@ export const SEED_PROJECTS = [
       { id: 'sup-2602-1', name: '于海涛', role: '总监理工程师', org: '东兴监理', requiredDays: 65, actualCheckIns: 60, todayCheckedIn: true, lastCheckInTime: '08:33' },
     ],
     constructionStaff: [
-      { id: 'con-2602-1', name: '韩磊', role: '项目经理', org: '山河建设', sectionName: '一标段', onDutyStatus: '在岗备案' },
-      { id: 'con-2602-2', name: '董明', role: '技术员', org: '沃农生态', sectionName: '二标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2602-1', name: '韩磊', role: '项目经理', org: '山河建设', sectionName: '一标段', requiredDays: 65, actualCheckIns: 61, todayCheckedIn: true, lastCheckInTime: '07:44' },
+      { id: 'con-2602-2', name: '董明', role: '技术员', org: '沃农生态', sectionName: '二标段', requiredDays: 60, actualCheckIns: 55, todayCheckedIn: true, lastCheckInTime: '08:02' },
     ],
     handover: { status: '待移交', agreementSigned: false },
   },
+
   {
     id: 'jl-2026-03',
     year: 2026,
@@ -714,10 +1073,50 @@ export const SEED_PROJECTS = [
     totalInvestment: 5600,
     status: '施工中',
     progressPercent: 31,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 40, // 31% < 40% -> 滞后提醒
     currentPhase: '集雨蓄水池开挖及管道沟槽放线',
     plannedEndDate: '2027-10-15',
+    overview: {
+      code: 'JL-LY-DF-2026-003',
+      constructionUnit: '东丰县农业农村局',
+      designUnit: '辽源市农业工程设计室',
+      superviseOrg: '吉林盛世工程监理公司',
+      centralBudget: 3920,
+      localFunding: 1680,
+      startDate: '2026-05-18',
+      summary: '围绕那丹伯镇、大兴镇推进山坡集雨蓄水池与PE输水支管灌溉建设。',
+    },
+    projectZones: [
+      { id: 'z-2603-1', name: '那丹伯镇集雨工程区', township: '那丹伯镇', areaMu: 3.4, progressPercent: 31, plannedPercent: 40 },
+    ],
+    townships: [
+      { id: 'tw-2603-1', name: '那丹伯镇', coords: [125.44, 42.73], areaMu: 3.4, progressPercent: 31 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2603-1', name: '那丹伯镇蓄水池开挖安全围栏点', township: '那丹伯镇', coords: [125.45, 42.74], status: '正常', detail: '深基坑护栏设置符合规范' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2603-1', name: '那丹伯镇管道放线记录仪01', township: '那丹伯镇', coords: [125.43, 42.72], online: true, deviceCode: 'REC-DF-001' },
+    ],
     safetySignCount: 24,
     safetySignDetails: { warning: 10, notice: 4, road: 6, protection: 4 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 14, supervisorApproved: 12 },
+      concealedSelfCheck: { uploaded: 9, supervisorApproved: 8 },
+      concreteSelfCheck: { uploaded: 6, supervisorApproved: 5 },
+      parallelCheck: { processPassed: 4, processTotal: 5, concealedPassed: 3, concealedTotal: 4 },
+      supervisorSideBySide: { count: 9, hours: 36, keyProcesses: 7 },
+      qualityPatrol: {
+        totalPatrols: 6,
+        issueCount: 1,
+        pendingRectifyCount: 1,
+        rectifiedCount: 0,
+        records: [
+          { id: 'qp-2603-1', title: '那丹伯镇PE管材现场堆放遮阳棚缺失', township: '那丹伯镇', sectionName: '一标段', status: '待整改', checkedAt: '2026-09-25', inspector: '高鹏' },
+        ],
+      },
+    },
     sections: [
       {
         id: 'sec-2026-03-a',
@@ -739,8 +1138,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2603-1', name: '山坡集雨蓄水池（14座）', budgetAmount: 2650, completedRatio: 0.35, acceptanceStatus: '待验收' },
-          { id: 'eng-2603-2', name: 'PE输水支管铺设（28km）', budgetAmount: 2300, completedRatio: 0.26, acceptanceStatus: '待验收' },
+          { id: 'eng-2603-1', name: '山坡集雨蓄水池（14座）', category: '灌溉与排水', township: '那丹伯镇', budgetAmount: 2650, completedRatio: 0.35, acceptanceStatus: '待验收' },
+          { id: 'eng-2603-2', name: 'PE输水支管铺设（28km）', category: '灌溉与排水', township: '那丹伯镇', budgetAmount: 2300, completedRatio: 0.26, acceptanceStatus: '待验收' },
         ],
       },
     ],
@@ -752,10 +1151,11 @@ export const SEED_PROJECTS = [
       { id: 'sup-2603-1', name: '高鹏', role: '专业监理工程师', org: '盛世监理', requiredDays: 58, actualCheckIns: 51, todayCheckedIn: false, lastCheckInTime: '昨日 16:45' },
     ],
     constructionStaff: [
-      { id: 'con-2603-1', name: '吕建', role: '项目经理', org: '盛昌建筑', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2603-1', name: '吕建', role: '项目经理', org: '盛昌建筑', sectionName: '一标段', requiredDays: 58, actualCheckIns: 54, todayCheckedIn: true, lastCheckInTime: '08:04' },
     ],
     handover: { status: '待移交', agreementSigned: false },
   },
+
   {
     id: 'jl-2026-04',
     year: 2026,
@@ -767,10 +1167,42 @@ export const SEED_PROJECTS = [
     totalInvestment: 4750,
     status: '施工中',
     progressPercent: 48,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 45, // 48% >= 45% -> 正常，无滞后提醒
     currentPhase: '田间作业道碎石垫层摊铺',
     plannedEndDate: '2027-07-30',
+    overview: {
+      code: 'JL-BS-FS-2026-004',
+      constructionUnit: '抚松县农业农村局',
+      designUnit: '白山市农业水利勘测院',
+      superviseOrg: '吉林江城建设监理公司',
+      centralBudget: 3325,
+      localFunding: 1425,
+      startDate: '2026-04-28',
+      summary: '在万良镇、泉阳镇开展山区排水截洪沟、砾石作业道及轮作区有机肥深施。',
+    },
+    projectZones: [
+      { id: 'z-2604-1', name: '万良镇作业道及截洪区', township: '万良镇', areaMu: 2.8, progressPercent: 48, plannedPercent: 45 },
+    ],
+    townships: [
+      { id: 'tw-2604-1', name: '万良镇', coords: [127.18, 42.25], areaMu: 2.8, progressPercent: 48 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2604-1', name: '万良镇山区道路临崖警示点', township: '万良镇', coords: [127.19, 42.26], status: '正常', detail: '防撞警示柱设置达标' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2604-1', name: '万良镇作业道记录仪01', township: '万良镇', coords: [127.17, 42.24], online: true, deviceCode: 'REC-FS-001' },
+    ],
     safetySignCount: 22,
     safetySignDetails: { warning: 8, notice: 4, road: 6, protection: 4 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 16, supervisorApproved: 15 },
+      concealedSelfCheck: { uploaded: 10, supervisorApproved: 10 },
+      concreteSelfCheck: { uploaded: 7, supervisorApproved: 7 },
+      parallelCheck: { processPassed: 5, processTotal: 5, concealedPassed: 4, concealedTotal: 4 },
+      supervisorSideBySide: { count: 10, hours: 40, keyProcesses: 8 },
+      qualityPatrol: { totalPatrols: 6, issueCount: 0, pendingRectifyCount: 0, rectifiedCount: 0, records: [] },
+    },
     sections: [
       {
         id: 'sec-2026-04-a',
@@ -792,8 +1224,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2604-1', name: '山区排水截洪沟（9.4km）', budgetAmount: 1800, completedRatio: 0.52, acceptanceStatus: '待验收' },
-          { id: 'eng-2604-2', name: '砾石作业道铺装', budgetAmount: 1300, completedRatio: 0.44, acceptanceStatus: '待验收' },
+          { id: 'eng-2604-1', name: '山区排水截洪沟（9.4km）', category: '灌溉与排水', township: '万良镇', budgetAmount: 1800, completedRatio: 0.52, acceptanceStatus: '待验收' },
+          { id: 'eng-2604-2', name: '砾石作业道铺装', category: '田间道路', township: '万良镇', budgetAmount: 1300, completedRatio: 0.44, acceptanceStatus: '待验收' },
         ],
       },
       {
@@ -819,11 +1251,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2604-3',
             name: '人参轮作区有机肥深施',
+            category: '有机肥培肥',
+            township: '万良镇',
             budgetAmount: 1200,
             completedRatio: 0.45,
             acceptanceStatus: '待验收',
             organicDesignTons: 1400,
             organicSpreadTons: 630,
+            organicStockedTons: 980,
             organicDesignMu: 11000,
             organicSpreadMu: 4950,
           },
@@ -838,12 +1273,12 @@ export const SEED_PROJECTS = [
       { id: 'sup-2604-1', name: '王鑫', role: '总监理工程师', org: '江城监理', requiredDays: 60, actualCheckIns: 57, todayCheckedIn: true, lastCheckInTime: '08:18' },
     ],
     constructionStaff: [
-      { id: 'con-2604-1', name: '曲波', role: '项目经理', org: '长白山路桥', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2604-1', name: '曲波', role: '项目经理', org: '长白山路桥', sectionName: '一标段', requiredDays: 60, actualCheckIns: 58, todayCheckedIn: true, lastCheckInTime: '07:50' },
     ],
     handover: { status: '待移交', agreementSigned: false },
   },
 
-  // ================= 2024 年项目（竣工验收与移交管护收尾年） =================
+  // ================= 2024 年项目 =================
   {
     id: 'jl-2024-01',
     year: 2024,
@@ -855,10 +1290,42 @@ export const SEED_PROJECTS = [
     totalInvestment: 12400,
     status: '已移交',
     progressPercent: 100,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 100,
     currentPhase: '已移交县级农田管护中心运行',
     plannedEndDate: '2025-06-30',
+    overview: {
+      code: 'JL-CC-GZL-2024-001',
+      constructionUnit: '公主岭市农田建设管理局',
+      designUnit: '吉林省水利水电勘测设计研究院',
+      superviseOrg: '长春恒信工程监理咨询公司',
+      centralBudget: 8680,
+      localFunding: 3720,
+      startDate: '2024-04-01',
+      summary: '在范家屯镇、怀德镇完成浅埋滴灌、硬化机耕路及有机肥还田培肥建设并交付管护。',
+    },
+    projectZones: [
+      { id: 'z-2401-1', name: '范家屯镇玉米高效片', township: '范家屯镇', areaMu: 8.0, progressPercent: 100, plannedPercent: 100 },
+    ],
+    townships: [
+      { id: 'tw-2401-1', name: '范家屯镇', coords: [125.04, 43.73], areaMu: 8.0, progressPercent: 100 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2401-1', name: '范家屯镇示范方安全宣传点', township: '范家屯镇', coords: [125.03, 43.72], status: '正常', detail: '移交管护安全标识齐全' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2401-1', name: '范家屯镇泵房记录仪01', township: '范家屯镇', coords: [125.05, 43.74], online: true, deviceCode: 'REC-GZL-001' },
+    ],
     safetySignCount: 44,
     safetySignDetails: { warning: 16, notice: 8, road: 12, protection: 8 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 52, supervisorApproved: 52 },
+      concealedSelfCheck: { uploaded: 36, supervisorApproved: 36 },
+      concreteSelfCheck: { uploaded: 24, supervisorApproved: 24 },
+      parallelCheck: { processPassed: 18, processTotal: 18, concealedPassed: 14, concealedTotal: 14 },
+      supervisorSideBySide: { count: 28, hours: 112, keyProcesses: 22 },
+      qualityPatrol: { totalPatrols: 20, issueCount: 0, pendingRectifyCount: 0, rectifiedCount: 0, records: [] },
+    },
     sections: [
       {
         id: 'sec-2024-01-a',
@@ -880,8 +1347,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2401-1', name: '浅埋滴灌示范区管网', budgetAmount: 4900, completedRatio: 1, acceptanceStatus: '已验收' },
-          { id: 'eng-2401-2', name: '水泥硬化田间主干道', budgetAmount: 3500, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2401-1', name: '浅埋滴灌示范区管网', category: '灌溉与排水', township: '范家屯镇', budgetAmount: 4900, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2401-2', name: '水泥硬化田间主干道', category: '田间道路', township: '范家屯镇', budgetAmount: 3500, completedRatio: 1, acceptanceStatus: '已验收' },
         ],
       },
       {
@@ -907,11 +1374,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2401-3',
             name: '黑土耕层有机肥深翻增施',
+            category: '有机肥培肥',
+            township: '范家屯镇',
             budgetAmount: 2900,
             completedRatio: 1,
             acceptanceStatus: '已验收',
             organicDesignTons: 3900,
             organicSpreadTons: 3900,
+            organicStockedTons: 3900,
             organicDesignMu: 32000,
             organicSpreadMu: 32000,
           },
@@ -926,7 +1396,7 @@ export const SEED_PROJECTS = [
       { id: 'sup-2401-1', name: '赵明', role: '总监理工程师', org: '长春恒信监理', requiredDays: 140, actualCheckIns: 138, todayCheckedIn: true, lastCheckInTime: '08:20' },
     ],
     constructionStaff: [
-      { id: 'con-2401-1', name: '刘振华', role: '项目经理', org: '吉农水利', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2401-1', name: '刘振华', role: '项目经理', org: '吉农水利', sectionName: '一标段', requiredDays: 140, actualCheckIns: 136, todayCheckedIn: true, lastCheckInTime: '07:55' },
     ],
     handover: {
       status: '已移交管护',
@@ -935,6 +1405,7 @@ export const SEED_PROJECTS = [
       agreementSigned: true,
     },
   },
+
   {
     id: 'jl-2024-02',
     year: 2024,
@@ -946,10 +1417,42 @@ export const SEED_PROJECTS = [
     totalInvestment: 9500,
     status: '已验收',
     progressPercent: 100,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 100,
     currentPhase: '验收备案完成，移交协议签署中',
     plannedEndDate: '2025-05-30',
+    overview: {
+      code: 'JL-SY-QA-2024-002',
+      constructionUnit: '乾安县农业农村局',
+      designUnit: '松原市水利勘测设计院',
+      superviseOrg: '吉林盛世工程监理公司',
+      centralBudget: 6650,
+      localFunding: 2850,
+      startDate: '2024-04-12',
+      summary: '在让字镇、水字镇完成高标准机井、低压输水管道及轻度盐碱田有机肥播撒。',
+    },
+    projectZones: [
+      { id: 'z-2402-1', name: '让字镇节水灌溉片', township: '让字镇', areaMu: 6.1, progressPercent: 100, plannedPercent: 100 },
+    ],
+    townships: [
+      { id: 'tw-2402-1', name: '让字镇', coords: [124.16, 44.96], areaMu: 6.1, progressPercent: 100 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2402-1', name: '让字镇低压井房安全标识点', township: '让字镇', coords: [124.15, 44.95], status: '正常', detail: '配电设施安全防护合格' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2402-1', name: '让字镇节水首部记录仪01', township: '让字镇', coords: [124.17, 44.97], online: true, deviceCode: 'REC-QA-001' },
+    ],
     safetySignCount: 35,
     safetySignDetails: { warning: 14, notice: 6, road: 9, protection: 6 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 40, supervisorApproved: 40 },
+      concealedSelfCheck: { uploaded: 28, supervisorApproved: 28 },
+      concreteSelfCheck: { uploaded: 16, supervisorApproved: 16 },
+      parallelCheck: { processPassed: 14, processTotal: 14, concealedPassed: 10, concealedTotal: 10 },
+      supervisorSideBySide: { count: 20, hours: 80, keyProcesses: 15 },
+      qualityPatrol: { totalPatrols: 15, issueCount: 0, pendingRectifyCount: 0, rectifiedCount: 0, records: [] },
+    },
     sections: [
       {
         id: 'sec-2024-02-a',
@@ -971,8 +1474,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2402-1', name: '高标准机井及潜水泵配套', budgetAmount: 3600, completedRatio: 1, acceptanceStatus: '已验收' },
-          { id: 'eng-2402-2', name: 'PVC低压输水管网（64km）', budgetAmount: 3200, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2402-1', name: '高标准机井及潜水泵配套', category: '灌溉与排水', township: '让字镇', budgetAmount: 3600, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2402-2', name: 'PVC低压输水管网（64km）', category: '灌溉与排水', township: '让字镇', budgetAmount: 3200, completedRatio: 1, acceptanceStatus: '已验收' },
         ],
       },
       {
@@ -998,11 +1501,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2402-3',
             name: '轻度盐碱田有机肥播撒',
+            category: '有机肥培肥',
+            township: '让字镇',
             budgetAmount: 2100,
             completedRatio: 1,
             acceptanceStatus: '已验收',
             organicDesignTons: 2800,
             organicSpreadTons: 2800,
+            organicStockedTons: 2800,
             organicDesignMu: 24000,
             organicSpreadMu: 24000,
           },
@@ -1017,10 +1523,11 @@ export const SEED_PROJECTS = [
       { id: 'sup-2402-1', name: '冯军', role: '总监理工程师', org: '盛世监理', requiredDays: 118, actualCheckIns: 115, todayCheckedIn: true, lastCheckInTime: '08:12' },
     ],
     constructionStaff: [
-      { id: 'con-2402-1', name: '刘凯', role: '项目经理', org: '江河水利', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2402-1', name: '刘凯', role: '项目经理', org: '江河水利', sectionName: '一标段', requiredDays: 118, actualCheckIns: 114, todayCheckedIn: true, lastCheckInTime: '07:56' },
     ],
     handover: { status: '移交办理中', custodianUnit: '乾安县水务农田管护站', agreementSigned: true },
   },
+
   {
     id: 'jl-2024-03',
     year: 2024,
@@ -1032,10 +1539,42 @@ export const SEED_PROJECTS = [
     totalInvestment: 7200,
     status: '已移交',
     progressPercent: 100,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 100,
     currentPhase: '已移交属地乡镇管护',
     plannedEndDate: '2025-04-30',
+    overview: {
+      code: 'JL-JL-PS-2024-003',
+      constructionUnit: '磐石市农业农村局',
+      designUnit: '吉林市水利水电勘测设计院',
+      superviseOrg: '吉林江城建设监理公司',
+      centralBudget: 5040,
+      localFunding: 2160,
+      startDate: '2024-03-28',
+      summary: '在明城镇实施坡改梯田块修筑与山坡排水跌水工程，现已整体移交乡镇管护。',
+    },
+    projectZones: [
+      { id: 'z-2403-1', name: '明城镇梯田片区', township: '明城镇', areaMu: 4.3, progressPercent: 100, plannedPercent: 100 },
+    ],
+    townships: [
+      { id: 'tw-2403-1', name: '明城镇', coords: [125.88, 43.05], areaMu: 4.3, progressPercent: 100 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2403-1', name: '明城镇跌水池防护网点', township: '明城镇', coords: [125.89, 43.04], status: '正常', detail: '跌水池周边安全护栏完好' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2403-1', name: '明城镇梯田管护站记录仪01', township: '明城镇', coords: [125.87, 43.06], online: true, deviceCode: 'REC-PS-001' },
+    ],
     safetySignCount: 28,
     safetySignDetails: { warning: 10, notice: 5, road: 8, protection: 5 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 32, supervisorApproved: 32 },
+      concealedSelfCheck: { uploaded: 20, supervisorApproved: 20 },
+      concreteSelfCheck: { uploaded: 14, supervisorApproved: 14 },
+      parallelCheck: { processPassed: 11, processTotal: 11, concealedPassed: 8, concealedTotal: 8 },
+      supervisorSideBySide: { count: 16, hours: 64, keyProcesses: 12 },
+      qualityPatrol: { totalPatrols: 12, issueCount: 0, pendingRectifyCount: 0, rectifiedCount: 0, records: [] },
+    },
     sections: [
       {
         id: 'sec-2024-03-a',
@@ -1057,8 +1596,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2403-1', name: '坡改梯田块修筑（1.8万亩）', budgetAmount: 3800, completedRatio: 1, acceptanceStatus: '已验收' },
-          { id: 'eng-2403-2', name: '山坡排水沟与跌水工程', budgetAmount: 2700, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2403-1', name: '坡改梯田块修筑（1.8万亩）', category: '土地平整', township: '明城镇', budgetAmount: 3800, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2403-2', name: '山坡排水沟与跌水工程', category: '灌溉与排水', township: '明城镇', budgetAmount: 2700, completedRatio: 1, acceptanceStatus: '已验收' },
         ],
       },
     ],
@@ -1070,7 +1609,7 @@ export const SEED_PROJECTS = [
       { id: 'sup-2403-1', name: '魏东', role: '总监理工程师', org: '江城监理', requiredDays: 100, actualCheckIns: 98, todayCheckedIn: true, lastCheckInTime: '08:27' },
     ],
     constructionStaff: [
-      { id: 'con-2403-1', name: '钱进', role: '项目经理', org: '龙潭水利', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2403-1', name: '钱进', role: '项目经理', org: '龙潭水利', sectionName: '一标段', requiredDays: 100, actualCheckIns: 97, todayCheckedIn: true, lastCheckInTime: '07:53' },
     ],
     handover: {
       status: '已移交管护',
@@ -1079,6 +1618,7 @@ export const SEED_PROJECTS = [
       agreementSigned: true,
     },
   },
+
   {
     id: 'jl-2024-04',
     year: 2024,
@@ -1090,10 +1630,50 @@ export const SEED_PROJECTS = [
     totalInvestment: 10400,
     status: '待验收',
     progressPercent: 96,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 100, // 96% < 100% -> 滞后提醒
     currentPhase: '末级渠系配套收尾与市级预验收',
     plannedEndDate: '2025-09-30',
+    overview: {
+      code: 'JL-BC-DA-2024-004',
+      constructionUnit: '大安市农业农村局',
+      designUnit: '白城市水利水电规划设计院',
+      superviseOrg: '吉林中水工程监理公司',
+      centralBudget: 7280,
+      localFunding: 3120,
+      startDate: '2024-04-08',
+      summary: '依托引嫩入白骨干工程，完善安广镇末级渠系衬砌、分水闸量水堰与稻田有机肥改土。',
+    },
+    projectZones: [
+      { id: 'z-2404-1', name: '安广镇灌区末级渠片', township: '安广镇', areaMu: 6.5, progressPercent: 96, plannedPercent: 100 },
+    ],
+    townships: [
+      { id: 'tw-2404-1', name: '安广镇', coords: [123.81, 45.45], areaMu: 6.5, progressPercent: 96 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2404-1', name: '安广镇分水闸启闭台安全护栏点', township: '安广镇', coords: [123.83, 45.46], status: '待整改', detail: '量水堰巡检便桥防滑垫需补装' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2404-1', name: '安广镇支渠衬砌记录仪01', township: '安广镇', coords: [123.80, 45.44], online: true, deviceCode: 'REC-DA-001' },
+    ],
     safetySignCount: 36,
     safetySignDetails: { warning: 14, notice: 6, road: 10, protection: 6 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 44, supervisorApproved: 42 },
+      concealedSelfCheck: { uploaded: 30, supervisorApproved: 29 },
+      concreteSelfCheck: { uploaded: 18, supervisorApproved: 17 },
+      parallelCheck: { processPassed: 14, processTotal: 15, concealedPassed: 11, concealedTotal: 12 },
+      supervisorSideBySide: { count: 22, hours: 88, keyProcesses: 17 },
+      qualityPatrol: {
+        totalPatrols: 16,
+        issueCount: 2,
+        pendingRectifyCount: 1,
+        rectifiedCount: 1,
+        records: [
+          { id: 'qp-2404-1', title: '安广镇3号量水堰闸槽止水条安装偏位', township: '安广镇', sectionName: '一标段', status: '待整改', checkedAt: '2025-09-20', inspector: '胡建军' },
+        ],
+      },
+    },
     sections: [
       {
         id: 'sec-2024-04-a',
@@ -1115,8 +1695,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2404-1', name: '灌区支斗渠衬砌工程', budgetAmount: 4200, completedRatio: 1, acceptanceStatus: '已验收' },
-          { id: 'eng-2404-2', name: '田间分水闸与量水堰', budgetAmount: 3200, completedRatio: 0.9, acceptanceStatus: '待验收' },
+          { id: 'eng-2404-1', name: '灌区支斗渠衬砌工程', category: '灌溉与排水', township: '安广镇', budgetAmount: 4200, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2404-2', name: '田间分水闸与量水堰', category: '灌溉与排水', township: '安广镇', budgetAmount: 3200, completedRatio: 0.9, acceptanceStatus: '待验收' },
         ],
       },
       {
@@ -1142,11 +1722,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2404-3',
             name: '稻田有机肥施用与旋耕',
+            category: '有机肥培肥',
+            township: '安广镇',
             budgetAmount: 2200,
             completedRatio: 1,
             acceptanceStatus: '待验收',
             organicDesignTons: 3100,
             organicSpreadTons: 3100,
+            organicStockedTons: 3100,
             organicDesignMu: 25000,
             organicSpreadMu: 25000,
           },
@@ -1161,12 +1744,12 @@ export const SEED_PROJECTS = [
       { id: 'sup-2404-1', name: '胡建军', role: '总监理工程师', org: '中水监理', requiredDays: 126, actualCheckIns: 121, todayCheckedIn: true, lastCheckInTime: '08:14' },
     ],
     constructionStaff: [
-      { id: 'con-2404-1', name: '杨帆', role: '项目经理', org: '西部农水', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2404-1', name: '杨帆', role: '项目经理', org: '西部农水', sectionName: '一标段', requiredDays: 126, actualCheckIns: 120, todayCheckedIn: true, lastCheckInTime: '07:58' },
     ],
     handover: { status: '待移交', agreementSigned: false },
   },
 
-  // ================= 2023 年项目（全面竣工与移交管护年） =================
+  // ================= 2023 年项目 =================
   {
     id: 'jl-2023-01',
     year: 2023,
@@ -1178,10 +1761,42 @@ export const SEED_PROJECTS = [
     totalInvestment: 11200,
     status: '已移交',
     progressPercent: 100,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 100,
     currentPhase: '全面移交镇村集体管护',
     plannedEndDate: '2024-08-30',
+    overview: {
+      code: 'JL-CC-DH-2023-001',
+      constructionUnit: '德惠市农业农村局',
+      designUnit: '吉林省水利水电勘测设计研究院',
+      superviseOrg: '长春恒信工程监理咨询公司',
+      centralBudget: 7840,
+      localFunding: 3360,
+      startDate: '2023-04-10',
+      summary: '在米沙子镇高标准建成万亩方机耕路网、泵井配套及黑土有机肥增施工程并全部移交。',
+    },
+    projectZones: [
+      { id: 'z-2301-1', name: '米沙子镇万亩示范方', township: '米沙子镇', areaMu: 7.5, progressPercent: 100, plannedPercent: 100 },
+    ],
+    townships: [
+      { id: 'tw-2301-1', name: '米沙子镇', coords: [125.56, 44.32], areaMu: 7.5, progressPercent: 100 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2301-1', name: '米沙子镇泵井管护安全牌', township: '米沙子镇', coords: [125.55, 44.31], status: '正常', detail: '运行安全规程牌完好' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2301-1', name: '米沙子镇示范方记录仪01', township: '米沙子镇', coords: [125.57, 44.33], online: true, deviceCode: 'REC-DH23-001' },
+    ],
     safetySignCount: 40,
     safetySignDetails: { warning: 15, notice: 7, road: 11, protection: 7 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 48, supervisorApproved: 48 },
+      concealedSelfCheck: { uploaded: 32, supervisorApproved: 32 },
+      concreteSelfCheck: { uploaded: 21, supervisorApproved: 21 },
+      parallelCheck: { processPassed: 16, processTotal: 16, concealedPassed: 12, concealedTotal: 12 },
+      supervisorSideBySide: { count: 25, hours: 100, keyProcesses: 19 },
+      qualityPatrol: { totalPatrols: 18, issueCount: 0, pendingRectifyCount: 0, rectifiedCount: 0, records: [] },
+    },
     sections: [
       {
         id: 'sec-2023-01-a',
@@ -1203,8 +1818,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2301-1', name: '高标准机耕路与过路涵', budgetAmount: 4200, completedRatio: 1, acceptanceStatus: '已验收' },
-          { id: 'eng-2301-2', name: '灌溉泵井配套工程', budgetAmount: 3700, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2301-1', name: '高标准机耕路与过路涵', category: '田间道路', township: '米沙子镇', budgetAmount: 4200, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2301-2', name: '灌溉泵井配套工程', category: '灌溉与排水', township: '米沙子镇', budgetAmount: 3700, completedRatio: 1, acceptanceStatus: '已验收' },
         ],
       },
       {
@@ -1230,11 +1845,14 @@ export const SEED_PROJECTS = [
           {
             id: 'eng-2301-3',
             name: '黑土耕地有机肥增施工程',
+            category: '有机肥培肥',
+            township: '米沙子镇',
             budgetAmount: 2400,
             completedRatio: 1,
             acceptanceStatus: '已验收',
             organicDesignTons: 3200,
             organicSpreadTons: 3200,
+            organicStockedTons: 3200,
             organicDesignMu: 28000,
             organicSpreadMu: 28000,
           },
@@ -1249,7 +1867,7 @@ export const SEED_PROJECTS = [
       { id: 'sup-2301-1', name: '赵明', role: '总监理工程师', org: '长春恒信监理', requiredDays: 135, actualCheckIns: 135, todayCheckedIn: true, lastCheckInTime: '08:00' },
     ],
     constructionStaff: [
-      { id: 'con-2301-1', name: '刘振华', role: '项目经理', org: '吉农水利', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2301-1', name: '刘振华', role: '项目经理', org: '吉农水利', sectionName: '一标段', requiredDays: 135, actualCheckIns: 133, todayCheckedIn: true, lastCheckInTime: '07:50' },
     ],
     handover: {
       status: '已移交管护',
@@ -1258,6 +1876,7 @@ export const SEED_PROJECTS = [
       agreementSigned: true,
     },
   },
+
   {
     id: 'jl-2023-02',
     year: 2023,
@@ -1269,10 +1888,42 @@ export const SEED_PROJECTS = [
     totalInvestment: 6100,
     status: '已移交',
     progressPercent: 100,
+    hasSchedulePlan: true,
+    plannedProgressPercent: 100,
     currentPhase: '已移交乡镇政府及村委会管护',
     plannedEndDate: '2024-07-15',
+    overview: {
+      code: 'JL-YB-WQ-2023-002',
+      constructionUnit: '汪清县农业农村局',
+      designUnit: '延边州农业工程设计研究院',
+      superviseOrg: '延吉兴业工程监理公司',
+      centralBudget: 4270,
+      localFunding: 1830,
+      startDate: '2023-04-18',
+      summary: '在大兴沟镇实施河道防洪格宾护岸与输水干渠工程，现已全面移交村委会管护。',
+    },
+    projectZones: [
+      { id: 'z-2302-1', name: '大兴沟镇河岸护堤片', township: '大兴沟镇', areaMu: 3.8, progressPercent: 100, plannedPercent: 100 },
+    ],
+    townships: [
+      { id: 'tw-2302-1', name: '大兴沟镇', coords: [129.68, 43.43], areaMu: 3.8, progressPercent: 100 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2302-1', name: '大兴沟镇护岸巡检安全牌', township: '大兴沟镇', coords: [129.67, 43.42], status: '正常', detail: '河道安全警示完善' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2302-1', name: '大兴沟镇管护点记录仪01', township: '大兴沟镇', coords: [129.69, 43.44], online: true, deviceCode: 'REC-WQ-001' },
+    ],
     safetySignCount: 26,
     safetySignDetails: { warning: 10, notice: 4, road: 7, protection: 5 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 28, supervisorApproved: 28 },
+      concealedSelfCheck: { uploaded: 18, supervisorApproved: 18 },
+      concreteSelfCheck: { uploaded: 12, supervisorApproved: 12 },
+      parallelCheck: { processPassed: 9, processTotal: 9, concealedPassed: 7, concealedTotal: 7 },
+      supervisorSideBySide: { count: 14, hours: 56, keyProcesses: 11 },
+      qualityPatrol: { totalPatrols: 10, issueCount: 0, pendingRectifyCount: 0, rectifiedCount: 0, records: [] },
+    },
     sections: [
       {
         id: 'sec-2023-02-a',
@@ -1294,8 +1945,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2302-1', name: '防洪护岸格宾网工程', budgetAmount: 3100, completedRatio: 1, acceptanceStatus: '已验收' },
-          { id: 'eng-2302-2', name: '农田输水干渠工程', budgetAmount: 2350, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2302-1', name: '防洪护岸格宾网工程', category: '灌溉与排水', township: '大兴沟镇', budgetAmount: 3100, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2302-2', name: '农田输水干渠工程', category: '灌溉与排水', township: '大兴沟镇', budgetAmount: 2350, completedRatio: 1, acceptanceStatus: '已验收' },
         ],
       },
     ],
@@ -1307,7 +1958,7 @@ export const SEED_PROJECTS = [
       { id: 'sup-2302-1', name: '崔敏', role: '总监理工程师', org: '延吉兴业监理', requiredDays: 102, actualCheckIns: 101, todayCheckedIn: true, lastCheckInTime: '08:16' },
     ],
     constructionStaff: [
-      { id: 'con-2302-1', name: '朴成哲', role: '项目经理', org: '长白水利', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2302-1', name: '朴成哲', role: '项目经理', org: '长白水利', sectionName: '一标段', requiredDays: 102, actualCheckIns: 100, todayCheckedIn: true, lastCheckInTime: '07:52' },
     ],
     handover: {
       status: '已移交管护',
@@ -1316,6 +1967,7 @@ export const SEED_PROJECTS = [
       agreementSigned: true,
     },
   },
+
   {
     id: 'jl-2023-03',
     year: 2023,
@@ -1327,10 +1979,42 @@ export const SEED_PROJECTS = [
     totalInvestment: 4800,
     status: '已验收',
     progressPercent: 100,
+    hasSchedulePlan: false,
+    plannedProgressPercent: null,
     currentPhase: '市级验收完成，正在办理资产移交',
     plannedEndDate: '2024-06-30',
+    overview: {
+      code: 'JL-TH-JA-2023-003',
+      constructionUnit: '集安市农业农村局',
+      designUnit: '通化市水利勘测设计院',
+      superviseOrg: '吉林东兴工程监理公司',
+      centralBudget: 3360,
+      localFunding: 1440,
+      startDate: '2023-04-25',
+      summary: '在太王镇建成山涧蓄水坝、引水管网与田间硬化便道，目前正在办理移交。',
+    },
+    projectZones: [
+      { id: 'z-2303-1', name: '太王镇高效排灌片', township: '太王镇', areaMu: 2.9, progressPercent: 100, plannedPercent: null },
+    ],
+    townships: [
+      { id: 'tw-2303-1', name: '太王镇', coords: [126.25, 41.18], areaMu: 2.9, progressPercent: 100 },
+    ],
+    safetyPoints: [
+      { id: 'sp-2303-1', name: '太王镇蓄水坝溢洪口警示点', township: '太王镇', coords: [126.24, 41.17], status: '正常', detail: '泄洪警示设施完善' },
+    ],
+    recorderPoints: [
+      { id: 'rp-2303-1', name: '太王镇管护站记录仪01', township: '太王镇', coords: [126.26, 41.19], online: true, deviceCode: 'REC-JA-001' },
+    ],
     safetySignCount: 21,
     safetySignDetails: { warning: 8, notice: 4, road: 5, protection: 4 },
+    engineeringQuality: {
+      processSelfCheck: { uploaded: 24, supervisorApproved: 24 },
+      concealedSelfCheck: { uploaded: 14, supervisorApproved: 14 },
+      concreteSelfCheck: { uploaded: 10, supervisorApproved: 10 },
+      parallelCheck: { processPassed: 8, processTotal: 8, concealedPassed: 6, concealedTotal: 6 },
+      supervisorSideBySide: { count: 12, hours: 48, keyProcesses: 9 },
+      qualityPatrol: { totalPatrols: 9, issueCount: 0, pendingRectifyCount: 0, rectifiedCount: 0, records: [] },
+    },
     sections: [
       {
         id: 'sec-2023-03-a',
@@ -1352,8 +2036,8 @@ export const SEED_PROJECTS = [
           },
         ],
         engineeringItems: [
-          { id: 'eng-2303-1', name: '山涧蓄水坝与引水管网', budgetAmount: 2400, completedRatio: 1, acceptanceStatus: '已验收' },
-          { id: 'eng-2303-2', name: '田间作业便道硬化', budgetAmount: 1800, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2303-1', name: '山涧蓄水坝与引水管网', category: '灌溉与排水', township: '太王镇', budgetAmount: 2400, completedRatio: 1, acceptanceStatus: '已验收' },
+          { id: 'eng-2303-2', name: '田间作业便道硬化', category: '田间道路', township: '太王镇', budgetAmount: 1800, completedRatio: 1, acceptanceStatus: '已验收' },
         ],
       },
     ],
@@ -1362,10 +2046,10 @@ export const SEED_PROJECTS = [
       { id: 'qc-2303-2', projectId: 'jl-2023-03', sectionName: '一标段', checkType: '平行检测', itemName: '管道打压测试', result: '合格', checkedAt: '2023-09-19', inspector: '于海涛（监理）' },
     ],
     supervisors: [
-      { id: 'sup-2303-1', name: '于海涛', role: '总监理工程师', org: '东兴监理', requiredDays: 92, actualCheckIns: 90, todayCheckedIn: true, lastCheckInTime: '08:25' },
+      { id: 'sup-2023-1', name: '于海涛', role: '总监理工程师', org: '东兴监理', requiredDays: 92, actualCheckIns: 90, todayCheckedIn: true, lastCheckInTime: '08:25' },
     ],
     constructionStaff: [
-      { id: 'con-2303-1', name: '韩磊', role: '项目经理', org: '山河建设', sectionName: '一标段', onDutyStatus: '在岗备案' },
+      { id: 'con-2023-1', name: '韩磊', role: '项目经理', org: '山河建设', sectionName: '一标段', requiredDays: 92, actualCheckIns: 89, todayCheckedIn: true, lastCheckInTime: '07:54' },
     ],
     handover: { status: '移交办理中', custodianUnit: '集安市太王镇农田管护站', agreementSigned: true },
   },
